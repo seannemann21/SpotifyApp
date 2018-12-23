@@ -7,7 +7,7 @@
             url: '/api/session/Createuser?username=' + $("#username").val() + '&sessionId=' + sessionId,
             type: 'put',
             success: function (data) {
-                window.location.href("/session?sessionId=" + sessionId + "&username=" + $("#username").val());
+                window.location.assign("/session?sessionId=" + sessionId + "&username=" + $("#username").val());
             }
         });
     });

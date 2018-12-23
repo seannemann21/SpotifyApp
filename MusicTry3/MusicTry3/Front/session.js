@@ -12,7 +12,7 @@
             type: 'post',
             data: $('#submitPlaylistForm').serialize(),
             success: function (data) {
-                window.location.href("/session/playlist?sessionId=" + sessionId + "&playlistId=" + data.id +"&username=" + username);
+                window.location.assign("/session/playlist?sessionId=" + sessionId + "&playlistId=" + data.id +"&username=" + username);
             }
         });
     });

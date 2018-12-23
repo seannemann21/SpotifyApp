@@ -6,7 +6,7 @@
             type: 'post',
             success: function (sessionId) {
                 if (sessionId != null) {
-                    window.location.href("/createUser?userstatus=master&sessionId=" + sessionId);
+                    window.location.assign("/createUser?userstatus=master&sessionId=" + sessionId);
                 }
             }
         });
@@ -18,7 +18,7 @@
             url: '/api/session/' + $('#session').val(),
             type: 'get',
             success: function () {
-                window.location.href("/createUser?userstatus=regular&sessionId=" + $('#session').val());
+                window.location.assign("/createUser?userstatus=regular&sessionId=" + $('#session').val());
             },
             error: function () {
                 $('#roomError').show();
