@@ -5985,11 +5985,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\seannemann\\source\\repos\\MusicTry3\\MusicTry3Test\\MusicTry3Test.csproj",
+      "projectUniqueName": "C:\\workspace\\SpotifyApp\\MusicTry3\\MusicTry3Test\\MusicTry3Test.csproj",
       "projectName": "MusicTry3Test",
-      "projectPath": "C:\\Users\\seannemann\\source\\repos\\MusicTry3\\MusicTry3Test\\MusicTry3Test.csproj",
+      "projectPath": "C:\\workspace\\SpotifyApp\\MusicTry3\\MusicTry3Test\\MusicTry3Test.csproj",
       "packagesPath": "C:\\Users\\seannemann\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\seannemann\\source\\repos\\MusicTry3\\MusicTry3Test\\obj\\",
+      "outputPath": "C:\\workspace\\SpotifyApp\\MusicTry3\\MusicTry3Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -6008,8 +6008,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Users\\seannemann\\source\\repos\\MusicTry3\\MusicTry3\\MusicTry3.csproj": {
-              "projectPath": "C:\\Users\\seannemann\\source\\repos\\MusicTry3\\MusicTry3\\MusicTry3.csproj"
+            "C:\\workspace\\SpotifyApp\\MusicTry3\\MusicTry3\\MusicTry3.csproj": {
+              "projectPath": "C:\\workspace\\SpotifyApp\\MusicTry3\\MusicTry3\\MusicTry3.csproj"
             }
           }
         }
