@@ -1,9 +1,11 @@
-﻿$(document).ready(function () {
+﻿var lastPlaylist = null;
+
+$(document).ready(function () {
     var sessionId = Cookies.get("sessionId");
     var playlistId = GetURLParameter("playlistId");
     var username = Cookies.get("username");
 
-    SetupPlaylistData(sessionId, playlistId, username);
+    UpdatePlaylistData(sessionId, playlistId, username);
     setInterval(function () {
         UpdatePlaylistData(sessionId, playlistId, username);
     }, 5000);
@@ -45,34 +47,33 @@
     });
 });
 
-
-function UpdatePlaylistData(sessionId, playlistId, username) {
-    ClearPlaylistData();
-    SetupPlaylistData(sessionId, playlistId, username);
-}
-
 function ClearPlaylistData() {
     $("#playlistQueueTableBody tr").remove();
     $("#onboardingTableBody tr").remove();
 }
 
-function SetupPlaylistData(sessionId, playlistId, name) {
+function UpdatePlaylistData(sessionId, playlistId, name) {
     $.ajax({
         url: '/api/session/' + sessionId + '/playlist/' + playlistId,
         type: 'get',
         success: function (playlist) {
-            var spotifyPlaylist = playlist.spotifyPlaylist;
-            $('#playlistNameTitle').text(spotifyPlaylist.name);
-            if (spotifyPlaylist.tracks != null) {
-                if (spotifyPlaylist.tracks.items != null) {
-                    var realTracks = spotifyPlaylist.tracks.items;
-                    for (var i in realTracks) {
-                        AddRowToQueueTable(realTracks[i].track);
-                    }
-                    for (var i in playlist.onBoardingSongs) {
-                        AddRowToOnboardingTable(sessionId, playlistId, playlist.onBoardingSongs[i], name);
+            if (lastPlaylist == null || JSON.stringify(lastPlaylist) !== JSON.stringify(playlist)) {
+                ClearPlaylistData();
+                var spotifyPlaylist = playlist.spotifyPlaylist;
+                $('#playlistNameTitle').text(spotifyPlaylist.name);
+                if (spotifyPlaylist.tracks != null) {
+                    if (spotifyPlaylist.tracks.items != null) {
+                        var realTracks = spotifyPlaylist.tracks.items;
+                        for (var i in realTracks) {
+                            AddRowToQueueTable(realTracks[i].track);
+                        }
+                        for (var i in playlist.onBoardingSongs) {
+                            AddRowToOnboardingTable(sessionId, playlistId, playlist.onBoardingSongs[i], name);
+                        }
                     }
                 }
+
+                lastPlaylist = playlist;
             }
         },
         error: function () {
