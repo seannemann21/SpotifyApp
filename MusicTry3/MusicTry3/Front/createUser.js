@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var sessionId = GetURLParameter("sessionId");
+    var sessionId = Cookies.get("sessionId");
 
     $('#submitUserForm').submit(function (e) {
         e.preventDefault();
@@ -7,19 +7,9 @@
             url: '/api/session/Createuser?username=' + $("#username").val() + '&sessionId=' + sessionId,
             type: 'put',
             success: function (data) {
-                window.location.assign("/session?sessionId=" + sessionId + "&username=" + $("#username").val());
+                Cookies.set("username", $("#username").val());
+                window.location.assign("/session");
             }
         });
     });
 });
-
-function GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) {
-            return decodeURIComponent(sParameterName[1]);
-        }
-    }
-}

@@ -1,11 +1,11 @@
 ﻿$(document).ready(function () {
-    var sessionId = GetURLParameter("sessionId");
+    var sessionId = Cookies.get("sessionId");
     var playlistId = GetURLParameter("playlistId");
-    var username = GetURLParameter("username");
+    var username = Cookies.get("username");
 
     SetupPlaylistData(sessionId, playlistId, username);
     setInterval(function () {
-        UpdatePlaylistData();
+        UpdatePlaylistData(sessionId, playlistId, username);
     }, 5000);
 
     $("#search").autocomplete({
@@ -38,7 +38,7 @@
                 type: 'put',
                 success: function (tracks) {
                     $("#search").val('');
-                    UpdatePlaylistData();
+                    UpdatePlaylistData(sessionId, playlistId, username);
                 }
             })
         }
@@ -46,7 +46,7 @@
 });
 
 
-function UpdatePlaylistData() {
+function UpdatePlaylistData(sessionId, playlistId, username) {
     ClearPlaylistData();
     SetupPlaylistData(sessionId, playlistId, username);
 }
@@ -76,7 +76,7 @@ function SetupPlaylistData(sessionId, playlistId, name) {
             }
         },
         error: function () {
-            window.location.href("/home");
+            window.location.assign("/home");
         }
     });
 }

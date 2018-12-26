@@ -11,7 +11,7 @@ namespace MusicTry3.Constants
         public const string ClientSecret = "a15634729a0640cbb1b816513315adb9";
         public const string WebApiBase = "https://api.spotify.com/v1/";
         public const string AccountsBaseApi = "https://accounts.spotify.com/api/";
-        public const string RedirectUri = "https://c9109788.ngrok.io/home/";
+        public const string RedirectUri = "https://7b02ff7b.ngrok.io/home/";
 
     }
 }

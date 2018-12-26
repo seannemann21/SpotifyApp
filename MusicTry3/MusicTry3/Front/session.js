@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
-
-    var sessionId = GetURLParameter('sessionId');
-    var username = GetURLParameter('username');
+    var sessionId = Cookies.get("sessionId");
+    var username = Cookies.get("username");
 
     setupPage(sessionId, username);
 
@@ -12,7 +11,7 @@
             type: 'post',
             data: $('#submitPlaylistForm').serialize(),
             success: function (data) {
-                window.location.assign("/session/playlist?sessionId=" + sessionId + "&playlistId=" + data.id +"&username=" + username);
+                window.location.assign("/session/playlist?playlistId=" + data.id);
             }
         });
     });
@@ -28,17 +27,6 @@ function setupPage(sessionId, username) {
             }
         }
     });
-}
-
-function GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) {
-            return decodeURIComponent(sParameterName[1]);
-        }
-    }
 }
 
 function createRowForPlaylistTable(playlist, sessionId, username) {

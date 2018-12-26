@@ -13,6 +13,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
 <script src="/Front/landing.js"></script>
 
     <meta charset="utf-8" />
@@ -23,7 +25,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <a href="https://accounts.spotify.com/authorize/?response_type=code&client_id=fffa7e259c734e9d9b681b1fbf07f2f9&scope=user-read-private%20user-read-playback-state%20playlist-modify-public%20user-read-email&redirect_uri=https%3A%2F%2Fc9109788.ngrok.io%2Fhome%2F"><button class="btn btn-primary">Create New Room</button></a>
+            <a href="https://accounts.spotify.com/authorize/?response_type=code&client_id=fffa7e259c734e9d9b681b1fbf07f2f9&scope=user-read-private%20user-read-playback-state%20playlist-modify-public%20user-read-email&redirect_uri=https%3A%2F%2F7b02ff7b.ngrok.io%2Fhome%2F"><button class="btn btn-primary">Create New Room</button></a>
         </div>
         <div class="row">
             <form id="joinRoom" action="/api/session/" method="get">

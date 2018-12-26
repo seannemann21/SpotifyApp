@@ -6,7 +6,9 @@
             type: 'post',
             success: function (sessionId) {
                 if (sessionId != null) {
-                    window.location.assign("/createUser?userstatus=master&sessionId=" + sessionId);
+                    Cookies.set("sessionId", sessionId);
+                    Cookies.set("userstatus", "master");
+                    window.location.assign("/createUser");
                 }
             }
         });
@@ -18,7 +20,9 @@
             url: '/api/session/' + $('#session').val(),
             type: 'get',
             success: function () {
-                window.location.assign("/createUser?userstatus=regular&sessionId=" + $('#session').val());
+                Cookies.set("sessionId", $('#session').val());
+                Cookies.set("userstatus", "regular");
+                window.location.assign("/createUser");
             },
             error: function () {
                 $('#roomError').show();
