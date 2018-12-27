@@ -1,13 +1,18 @@
 ﻿$(document).ready(function () {
+    if (Cookies.get("sessionId") != null && Cookies.get("userstatus") != null && Cookies.get("username") != null) {
+        window.location.assign("/session");
+    }
+
     var code = GetURLParameter("code");
     if (code != null) {
         $.ajax({
             url: '/api/session?code=' + code,
             type: 'post',
-            success: function (sessionId) {
-                if (sessionId != null) {
-                    Cookies.set("sessionId", sessionId);
+            success: function (session) {
+                if (session != null) {
+                    Cookies.set("sessionId", session.id);
                     Cookies.set("userstatus", "master");
+                    Cookies.set("keep-alive", session.keepAliveToken);
                     window.location.assign("/createUser");
                 }
             }

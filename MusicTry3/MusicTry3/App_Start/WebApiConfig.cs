@@ -14,7 +14,7 @@ namespace MusicTry3
         {
             
             var container = new UnityContainer();
-            container.RegisterType<ISessionRepo, MockedSessionRepo>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISessionRepo, SessionRepo>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API configuration and services

@@ -112,6 +112,7 @@
   <ItemGroup>
     <Content Include="Front\createUser.aspx" />
     <Content Include="Front\createUser.js" />
+    <Content Include="Front\keep-alive.js" />
     <Content Include="Front\landing.aspx" />
     <Content Include="Front\landing.js" />
     <Content Include="Front\playlist.aspx" />

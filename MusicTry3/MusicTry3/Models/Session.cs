@@ -19,15 +19,8 @@ namespace MusicTry3.Models
         public List<Playlist> playlists { get; set; }
         public List<User> users { get; set; }
         public SpotifyUser spotifyUser { get; set; }
-
-        public Session(SpotifyCredentials credentials)
-        {
-            this.spotifyCredentials = credentials;
-            this.id = GenerateId(existingSessionIds, random);
-            this.playlists = new List<Playlist>();
-            this.users = new List<User>();
-            this.spotifyUser = new SpotifyUser();
-        }
+        public DateTime lastContactWithMaster { get; set; }
+        public String keepAliveToken { get; set; }
 
         public Session(SpotifyCredentials credentials, SpotifyUser spotifyUser)
         {
@@ -36,6 +29,8 @@ namespace MusicTry3.Models
             this.playlists = new List<Playlist>();
             this.users = new List<User>();
             this.spotifyUser = spotifyUser;
+            this.lastContactWithMaster = DateTime.UtcNow;
+            this.keepAliveToken = Guid.NewGuid().ToString();
         }
 
         public static string GenerateId(HashSet<int> existingIds, Random rand)

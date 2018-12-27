@@ -75,9 +75,6 @@ function UpdatePlaylistData(sessionId, playlistId, name) {
 
                 lastPlaylist = playlist;
             }
-        },
-        error: function () {
-            window.location.assign("/home");
         }
     });
 }

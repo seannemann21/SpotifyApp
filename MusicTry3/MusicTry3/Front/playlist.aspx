@@ -27,6 +27,7 @@
 </style>
 
 <script src="../Front/playlist.js"></script>
+<script src="Front/keep-alive.js"></script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +36,14 @@
 </head>
 <body>
     <div class="container mt-3">
-      <h2 id="playlistNameTitle">Playlist Name Title</h2>
+        <div class="row">
+          <div class="col-sm-9">
+            <h2 id="playlistNameTitle">Playlist Name Title</h2>
+          </div>
+          <div class="col-sm-3">
+            <a href="/session"><button class="btn btn-primary">Back to Session</button></a>
+          </div>
+        </div>
       <br>
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
@@ -48,42 +56,47 @@
       </ul>
 
       <!-- Tab panes -->
-      <div class="tab-content">
-        <div id="queue" class="container tab-pane active"><br>
-          <h3>Queue</h3>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Song</th>
-                <th>Artist</th>
-              </tr>
-            </thead>
-            <tbody id="playlistQueueTableBody">
-            </tbody>
-          </table>
-        </div>
-        <div id="onboarding" class="container tab-pane fade"><br>
-            <div class="row">
-                <div class="ui-widget">
-                    <label for="search">Search: </label>
-                        <input id="search">
-                    </div>
-            </div>
-            <div class="row">
-              <table class="table table-striped">
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="tab-content">
+            <div id="queue" class="container tab-pane active"><br>
+                <h3>Queue</h3>
+                <table class="table table-striped">
                 <thead>
-                  <tr>
+                    <tr>
                     <th>Song</th>
                     <th>Artist</th>
-                    <th>Your Rating</th>
-                  </tr>
+                    </tr>
                 </thead>
-                <tbody id="onboardingTableBody">
+                <tbody id="playlistQueueTableBody">
                 </tbody>
-              </table>
+                </table>
             </div>
+            <div id="onboarding" class="container tab-pane fade"><br>
+                <div class="row">
+                    <div class="ui-widget">
+                        <label for="search">Search: </label>
+                            <input id="search">
+                        </div>
+                </div>
+                <div class="row">
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th>Song</th>
+                        <th>Artist</th>
+                        <th>Your Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody id="onboardingTableBody">
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
 </body>
 </html>

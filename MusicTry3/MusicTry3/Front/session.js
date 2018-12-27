@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     var sessionId = Cookies.get("sessionId");
     var username = Cookies.get("username");
+    var userstatus = Cookies.get("userstatus");
 
     setupPage(sessionId, username);
 
@@ -15,7 +16,29 @@
             }
         });
     });
+
+    $('#exitSession').click(function (e) {
+        e.preventDefault();
+        if (userstatus == "master") {
+            $("#endSessionModal").modal('show');
+        } else {
+            exitSession();
+        }
+    });
+
+    $('#endSession').click(function (e) {
+        e.preventDefault();
+        exitSession();
+    });
 });
+
+function exitSession() {
+    Cookies.remove("username");
+    Cookies.remove("userstatus");
+    Cookies.remove("sessionId");
+    Cookies.remove("keep-alive");
+    window.location.assign("/home");
+}
 
 function setupPage(sessionId, username) {
     $.ajax({

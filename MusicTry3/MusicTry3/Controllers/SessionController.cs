@@ -1,5 +1,6 @@
 ﻿using MusicTry3.Constants;
 using MusicTry3.Models;
+using MusicTry3.Util;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -54,7 +55,23 @@ namespace MusicTry3.Controllers
                 sessions.Add(session);
             }
             
-            return session != null ? (IHttpActionResult) Ok(session.id) : NotFound();
+            return session != null ? (IHttpActionResult) Ok(session) : NotFound();
+        }
+
+        [HttpPut]
+        public IHttpActionResult keepalive(string sessionId, string keepAlive)
+        {
+            bool keepAliveUpdated = false;
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if(session != null)
+            {
+                if(session.keepAliveToken == keepAlive)
+                {
+                    session.lastContactWithMaster = DateTime.UtcNow;
+                    keepAliveUpdated = true;
+                }
+            }
+            return keepAliveUpdated ? (IHttpActionResult) Ok() : NotFound();
         }
 
         private SpotifyUser GetCurrentSpotifyUser(string authorizationToken)

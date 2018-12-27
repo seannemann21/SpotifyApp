@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 <script src="Front/session.js"></script>
+<script src="Front/keep-alive.js"></script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +26,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-9">
              <form id="submitPlaylistForm" action="/api/session/" method="post" class="form-inline">
                <div class="form-group">
                  <label for="name">Playlist Name:</label>
@@ -33,6 +34,9 @@
                </div>
                <button type="submit" class="btn btn-primary">Create</button>
              </form>
+          </div>
+          <div class="col-sm-3">
+            <button id="exitSession" class="btn btn-primary">Exit Session</button>
           </div>
         </div>
     </div>
@@ -51,5 +55,24 @@
           </div>
         </div>
     </div>
+    <!-- Modal -->
+      <div class="modal fade" id="endSessionModal" role="dialog">
+        <div class="modal-dialog">
+    
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to exit the session? Since you created this sesssion, exiting it will end the session.</p>
+            </div>
+            <div class="modal-footer">
+              <button id="endSession" class="btn btn-default">End Session</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
 </body>
 </html>

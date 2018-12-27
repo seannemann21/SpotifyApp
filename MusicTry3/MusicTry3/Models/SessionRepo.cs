@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace MusicTry3.Models
@@ -8,12 +9,23 @@ namespace MusicTry3.Models
     public class SessionRepo : ISessionRepo
     {
         static List<Session> sessions;
+        static bool running;
 
         public SessionRepo()
         {
             if(sessions == null)
             {
                 sessions = new List<Session>();
+                running = true;
+                Thread deadSessionRemover = new Thread(() => {
+                    while (running)
+                    {
+                        DateTime now = DateTime.UtcNow;
+                        sessions.RemoveAll(x => x.lastContactWithMaster.AddMinutes(1).Ticks < now.Ticks);
+                        Thread.Sleep(30000);
+                    }
+                });
+                deadSessionRemover.Start();
             }
         }
 

@@ -1,5 +1,10 @@
 ﻿$(document).ready(function () {
+    if (Cookies.get("sessionId") != null && Cookies.get("userstatus") != null && Cookies.get("username") != null) {
+        window.location.assign("/session");
+    }
+
     var sessionId = Cookies.get("sessionId");
+
 
     $('#submitUserForm').submit(function (e) {
         e.preventDefault();
