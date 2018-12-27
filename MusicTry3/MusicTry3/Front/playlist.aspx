@@ -27,7 +27,7 @@
 </style>
 
 <script src="../Front/playlist.js"></script>
-<script src="Front/keep-alive.js"></script>
+<script src="../Front/keep-alive.js"></script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
