@@ -42,11 +42,14 @@ namespace MusicTry3.Controllers
             request.AddParameter("q", query);
             request.AddParameter("type", "track");
             IRestResponse response = client.Execute(request);
-            Dictionary<String, SpotifyTrackResponse> searchResponse = JsonConvert.DeserializeObject<Dictionary<String, SpotifyTrackResponse>>(response.Content);
             SpotifyTrackResponse trackResponse = new SpotifyTrackResponse();
-            if(searchResponse.ContainsKey("tracks"))
+            if (response.IsSuccessful)
             {
-                trackResponse = searchResponse["tracks"];
+                Dictionary<String, SpotifyTrackResponse> searchResponse = JsonConvert.DeserializeObject<Dictionary<String, SpotifyTrackResponse>>(response.Content);
+                if (searchResponse.ContainsKey("tracks"))
+                {
+                    trackResponse = searchResponse["tracks"];
+                }
             }
             if(trackResponse.items == null)
             {

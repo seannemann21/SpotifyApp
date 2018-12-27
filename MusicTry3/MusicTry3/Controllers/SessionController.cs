@@ -32,8 +32,7 @@ namespace MusicTry3.Controllers
         public IHttpActionResult Get(string id)
         {
             Session session = sessions.Find(x => x.id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
-            IHttpActionResult result = session != null ? (IHttpActionResult) Ok(session) : NotFound();
-            return result;
+            return session != null ? (IHttpActionResult) Ok(session) : NotFound();
         }
 
         [HttpPost]
@@ -46,13 +45,16 @@ namespace MusicTry3.Controllers
             request.AddParameter("application/x-www-form-urlencoded", $"client_id={Spotify.ClientId}&client_secret={Spotify.ClientSecret}&grant_type={grantType}&code={code}&redirect_uri={Spotify.RedirectUri}", ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-            SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
-            if(responseBody.scope != null && responseBody.access_token != null)
+            if(response.IsSuccessful)
             {
-                SpotifyCredentials credentials = new SpotifyCredentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
-                SpotifyUser spotifyUser = GetCurrentSpotifyUser(responseBody.access_token);
-                session = new Session(credentials, spotifyUser);
-                sessions.Add(session);
+                SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
+                if (responseBody.scope != null && responseBody.access_token != null)
+                {
+                    SpotifyCredentials credentials = new SpotifyCredentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
+                    SpotifyUser spotifyUser = GetCurrentSpotifyUser(responseBody.access_token);
+                    session = new Session(credentials, spotifyUser);
+                    sessions.Add(session);
+                }
             }
             
             return session != null ? (IHttpActionResult) Ok(session) : NotFound();
@@ -80,8 +82,13 @@ namespace MusicTry3.Controllers
             var request = new RestRequest("me");
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             IRestResponse response = client.Execute(request);
-            string content = response.Content;
-            return JsonConvert.DeserializeObject<SpotifyUser>(content);
+            SpotifyUser currentUser = null;
+            if(response.IsSuccessful)
+            {
+                string content = response.Content;
+                currentUser = JsonConvert.DeserializeObject<SpotifyUser>(content);
+            }
+            return currentUser;
         }
 
         [HttpPut]

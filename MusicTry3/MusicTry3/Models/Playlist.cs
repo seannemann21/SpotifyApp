@@ -109,11 +109,13 @@ namespace MusicTry3.Models
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Authorization", "Bearer " + credentials.accessToken);
             IRestResponse response = client.Execute(request);
-
-            spotifyPlaylist = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings
+            if(response.IsSuccessful)
             {
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            });
+                spotifyPlaylist = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                });
+            }
         }
     }
 }

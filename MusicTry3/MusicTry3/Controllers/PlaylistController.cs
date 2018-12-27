@@ -55,8 +55,11 @@ namespace MusicTry3.Controllers
             if(currentSession != null)
             {
                 SpotifyPlaylist spotifyPlaylist = CreateSpotifyPlaylist(currentSession.spotifyCredentials.accessToken, currentSession.spotifyUser.id, name.name);
-                playlist = new Playlist(currentSession.spotifyCredentials, spotifyPlaylist);
-                currentSession.playlists.Add(playlist);
+                if(spotifyPlaylist != null)
+                {
+                    playlist = new Playlist(currentSession.spotifyCredentials, spotifyPlaylist);
+                    currentSession.playlists.Add(playlist);
+                }
             }
             
             return playlist != null ? (IHttpActionResult) Ok(playlist.spotifyPlaylist) : NotFound();
@@ -113,9 +116,14 @@ namespace MusicTry3.Controllers
             request.AddHeader("Content-type", "application/json");
             request.AddBody(new SpotifyPlaylistRequestBody { name = name});
             IRestResponse response = client.Execute(request);
-            SpotifyPlaylist playlistResponse = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings{
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            });
+            SpotifyPlaylist playlistResponse = null;
+            if(response.IsSuccessful)
+            {
+                playlistResponse = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                });
+            }
             return playlistResponse;
         }
 
