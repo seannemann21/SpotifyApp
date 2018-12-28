@@ -3,16 +3,20 @@
     var username = Cookies.get("username");
     var userstatus = Cookies.get("userstatus");
 
-    setupPage(sessionId, username);
+    setupPage(sessionId, username, userstatus);
+    
 
-    $('#submitPlaylistForm').submit(function (e) {
+    $('#createPlaylistButton').click(function (e) {
         e.preventDefault();
         $.ajax({
             url: '/api/session/' + sessionId + "/playlist/",
             type: 'post',
-            data: $('#submitPlaylistForm').serialize(),
+            data: "=" + $('#name').val(),
             success: function (data) {
                 window.location.assign("/session/playlist?playlistId=" + data.id);
+            },
+            error: function (e) {
+
             }
         });
     });
@@ -40,7 +44,14 @@ function exitSession() {
     window.location.assign("/home");
 }
 
-function setupPage(sessionId, username) {
+function setupPage(sessionId, username, userstatus) {
+    $("#sessionName").text(sessionId);
+
+    if (userstatus !== "master") {
+        $("#name").prop('disabled', true);
+        $("#createPlaylistButton").prop('disabled', true);
+    }
+
     $.ajax({
         url: '/api/session/' + sessionId + "/playlist/",
         type: 'get',

@@ -48,13 +48,13 @@ namespace MusicTry3.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post(string sessionId, PlaylistName name)
+        public IHttpActionResult Post(string sessionId, [FromBody] string name)
         {
             Playlist playlist = null;
             Session currentSession = CommonUtil.GetSession(sessions, sessionId);
             if(currentSession != null)
             {
-                SpotifyPlaylist spotifyPlaylist = CreateSpotifyPlaylist(currentSession.spotifyCredentials.accessToken, currentSession.spotifyUser.id, name.name);
+                SpotifyPlaylist spotifyPlaylist = CreateSpotifyPlaylist(currentSession.spotifyCredentials.accessToken, currentSession.spotifyUser.id, name);
                 if(spotifyPlaylist != null)
                 {
                     playlist = new Playlist(currentSession.spotifyCredentials, spotifyPlaylist);

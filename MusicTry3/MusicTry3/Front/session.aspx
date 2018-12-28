@@ -26,14 +26,19 @@
 <body>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-sm-12">
+                <h3 id="sessionName"></h3>
+            </div>
+        </div>
+        <div class="row">
           <div class="col-sm-9">
-             <form id="submitPlaylistForm" action="/api/session/" method="post" class="form-inline">
+             <div class="form-inline">
                <div class="form-group">
                  <label for="name">Playlist Name:</label>
                  <input type="text" class="form-control" id="name" name="name">
                </div>
-               <button type="submit" class="btn btn-primary">Create</button>
-             </form>
+               <button id="createPlaylistButton" type="submit" class="btn btn-primary">Create</button>
+             </div>
           </div>
           <div class="col-sm-3">
             <button id="exitSession" class="btn btn-primary">Exit Session</button>
