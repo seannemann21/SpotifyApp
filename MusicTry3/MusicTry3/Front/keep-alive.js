@@ -6,7 +6,7 @@
 
     setInterval(function () {
         keepSessionAlive(sessionId, keepAlive)
-    }, 5000);
+    }, 60000);
 });
 
 function keepSessionAlive(sessionId, keepAlive) {
