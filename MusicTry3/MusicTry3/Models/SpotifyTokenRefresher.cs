@@ -39,7 +39,8 @@ namespace MusicTry3.Models
                 while (running)
                 {
                     RefreshToken();
-                    Thread.Sleep(30000);
+                    // 45 minutes
+                    Thread.Sleep(45 * 60 * 1000);
                 }
             });
         }
