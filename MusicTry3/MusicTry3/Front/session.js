@@ -59,6 +59,10 @@ function setupPage(sessionId, username, userstatus) {
             for (var i in data) {
                 $('#playlistTableBody').append(createRowForPlaylistTable(data[i], sessionId, username));
             }
+        },
+        error: function () {
+            alert("Session no longer available, redirecting");
+            setTimeout(function () { exitSession() }, 1000);
         }
     });
 }
