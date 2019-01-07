@@ -10,5 +10,6 @@ namespace MusicTry3.Models
         public string progress_ms { get; set; }
         public bool is_playing { get; set; }
         public SpotifyTrack item { get; set; }
+        public SpotifyContextObject context { get; set; }
     }
 }

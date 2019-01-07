@@ -112,6 +112,7 @@
   <ItemGroup>
     <Content Include="Front\createUser.aspx" />
     <Content Include="Front\createUser.js" />
+    <Content Include="Front\general.css" />
     <Content Include="Front\keep-alive.js" />
     <Content Include="Front\landing.aspx" />
     <Content Include="Front\landing.js" />
@@ -126,13 +127,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Constants\Spotify.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\PlaybackController.cs" />
     <Compile Include="Controllers\PlaylistController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\SpotifyContextObject.cs" />
+    <Compile Include="Models\SpotifyOffset.cs" />
     <Compile Include="Models\SpotifyPlaylistTrackResponse.cs" />
+    <Compile Include="Models\SpotifyTokenRefresher.cs" />
+    <Compile Include="Models\SpotifyTokenRefreshResponse.cs" />
     <Compile Include="Models\SpotifyTrackWrapper.cs" />
     <Compile Include="Models\SpotifyPlaybackContext.cs" />
     <Compile Include="Models\SpotifyTrackAdditionRequest.cs" />
@@ -151,6 +157,7 @@
     <Compile Include="Models\SpotifyTokenResponse.cs" />
     <Compile Include="Models\SpotifyTrack.cs" />
     <Compile Include="Models\SpotifyUser.cs" />
+    <Compile Include="Models\StartResumeRequestBody.cs" />
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\SpotifyCredentials.cs" />

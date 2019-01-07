@@ -19,6 +19,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
 
 <style>
 .checked {
@@ -26,6 +27,7 @@
 }
 </style>
 
+<link rel="stylesheet" href="../Front/general.css">
 <script src="../Front/playlist.js"></script>
 <script src="../Front/keep-alive.js"></script>
 
@@ -52,6 +54,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#onboarding">Onboarding Songs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#playback">Playback</a>
         </li>
       </ul>
 
@@ -92,6 +97,17 @@
                     </tbody>
                   </table>
               </div>
+            </div>
+            <div id="playback" class="container tab-pane fade"><br>
+                <div class="row" style="font-size:3em">
+                    <div class="col-sm-2">
+                        <a href id="play"><i class="glyph fa fa-play"></i></a>
+                        <a href id="pause"><i class="glyph fa fa-pause"></i></a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href id="next"><i class="glyph fa fa-step-forward"></i></a>
+                    </div>
+                </div>
             </div>
           </div>
         </div>

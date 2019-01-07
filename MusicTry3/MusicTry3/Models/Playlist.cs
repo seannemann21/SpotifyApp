@@ -15,17 +15,54 @@ namespace MusicTry3.Models
         public SpotifyPlaylist spotifyPlaylist { get; set; }
         // make priority queue
         public List<OnBoardingSong> onBoardingSongs { get; set; }
-        public Thread onBoardingSelector { get; set; }
+        public static Thread onBoardingSelector { get; set; }
         public bool running { get; set; }
+        public static Thread connectPlayback { get; set; }
+        public bool playingThroughConnectAPI { get; set; }
+        public int nextSongOffset { get; set; }
+        public string deviceId { get; set; }
         public SpotifyCredentials credentials { get; set; }
+        public bool isPaused { get; set; }
 
         public Playlist(SpotifyCredentials credentials, SpotifyPlaylist spotifyPlaylist)
         {
             onBoardingSongs = new List<OnBoardingSong> ();
             this.credentials = credentials;
             this.spotifyPlaylist = spotifyPlaylist;
-            running = true;
-            Thread onBoardingSelector = new Thread(() => {
+            this.playingThroughConnectAPI = false;
+            this.isPaused = false;
+            this.nextSongOffset = 0;
+            connectPlayback = new Thread(() =>
+            {
+                while (running)
+                {
+                    if(playingThroughConnectAPI)
+                    {
+                        SpotifyPlaybackContext playbackContext;
+                        if (credentials != null)
+                        {
+                            playbackContext = GetPlaybackContext(credentials.accessToken);
+                            if(playbackContext != null && this.isPaused)
+                            {
+                                this.isPaused = false;
+                                ResumePlayback();
+                            } else if (playbackContext == null || !playbackContext.is_playing)
+                            {
+                                UpdateSpotifyPlaylist();
+                                // check to make sure there are enough songs
+                                if(this.nextSongOffset < this.spotifyPlaylist.tracks.items.Count)
+                                {
+                                    PlayNextSong();
+                                }
+                            }
+                        }
+                    }
+                    Thread.Sleep(2000);
+                }
+            });
+            connectPlayback.Start();
+            this.running = true;
+            onBoardingSelector = new Thread(() => {
                 while(running)
                 {
                     SpotifyPlaybackContext playbackContext;
@@ -33,7 +70,8 @@ namespace MusicTry3.Models
                     {
                         playbackContext = GetPlaybackContext(credentials.accessToken);
                         UpdateSpotifyPlaylist();
-                        if (this.spotifyPlaylist != null && (this.spotifyPlaylist.tracks.items.Count == 0 || (playbackContext != null && (playbackContext.is_playing && playbackContext.progress_ms != null && playbackContext.item != null && AtLeastThingManySongsInPlaylistQueue(1, playbackContext, this.spotifyPlaylist)))))
+                        // playbackContext.is_playing && playbackContext.progress_ms != null && playbackContext.item != null && 
+                        if (this.spotifyPlaylist != null && (this.spotifyPlaylist.tracks.items.Count == 0 || (playbackContext != null && (!AtLeastThisManySongsInPlaylistQueue(1, playbackContext, this.spotifyPlaylist)))))
                         {
                             OnBoardingSong highestVotedSong = GetHighestVotedSong(onBoardingSongs);
                             if(highestVotedSong != null)
@@ -42,14 +80,91 @@ namespace MusicTry3.Models
                             }
                         }
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                 }
             });
             onBoardingSelector.Start();
         }
 
+        public void Next()
+        {
+            PausePlayback();
+        }
+
+        public void Pause()
+        {
+            this.playingThroughConnectAPI = false;
+            this.isPaused = true;
+            PausePlayback();
+        }
+
+        public void Play(string deviceId)
+        {
+            this.playingThroughConnectAPI = true;
+            this.deviceId = deviceId;
+
+        }
+
+        private bool PausePlayback()
+        {
+            var successful = false;
+            var client = new RestClient(spotifyBaseApi + "me/");
+            var request = new RestRequest("player/pause", Method.PUT);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
+
+            IRestResponse response = client.Execute(request);
+            if (response.IsSuccessful)
+            {
+                successful = true;
+            }
+
+            return successful;
+        }
+
+        private bool ResumePlayback()
+        {
+            var successful = false;
+            var client = new RestClient(spotifyBaseApi + "me/");
+            var request = new RestRequest("player/play", Method.PUT);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
+
+            IRestResponse response = client.Execute(request);
+            if (response.IsSuccessful)
+            {
+                successful = true;
+            }
+
+            return successful;
+        }
+
+        private void PlayNextSong()
+        {
+            var client = new RestClient(spotifyBaseApi + "me/");
+            var request = new RestRequest("player/play?device_id=" + deviceId, Method.PUT);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
+            StartResumeRequestBody body = new StartResumeRequestBody();
+            body.context_uri = this.spotifyPlaylist.uri;
+            body.offset = new SpotifyOffset();
+            body.offset.position = nextSongOffset;
+            request.AddBody(body);
+
+            IRestResponse response = client.Execute(request);
+            if(response.IsSuccessful)
+            {
+                nextSongOffset++;
+            }
+        }
+
+        private void Resume()
+        {
+
+        }
+
         // returns true if there are less unplayedSongs in queue than bufferSongs, false if equal to or more than buffer songs or the current song played isn't in playlist
-        private bool AtLeastThingManySongsInPlaylistQueue(int bufferSongs, SpotifyPlaybackContext playbackContext, SpotifyPlaylist spotifyPlaylist)
+        private bool AtLeastThisManySongsInPlaylistQueue(int bufferSongs, SpotifyPlaybackContext playbackContext, SpotifyPlaylist spotifyPlaylist)
         {
             var i = 0;
             while(i < spotifyPlaylist.tracks.items.Count && spotifyPlaylist.tracks.items[i].track.uri != playbackContext.item.uri)
@@ -59,7 +174,7 @@ namespace MusicTry3.Models
 
             var trackFound = (i < spotifyPlaylist.tracks.items.Count);
             
-            return (trackFound && (spotifyPlaylist.tracks.items.Count - i - 1 < bufferSongs));
+            return spotifyPlaylist.tracks.items.Count - i - 1 >= bufferSongs;
         }
 
         private OnBoardingSong GetHighestVotedSong(List<OnBoardingSong> onBoardingSongs)

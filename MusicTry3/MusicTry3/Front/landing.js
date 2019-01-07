@@ -13,6 +13,7 @@
                     Cookies.set("sessionId", session.id);
                     Cookies.set("userstatus", "master");
                     Cookies.set("keep-alive", session.keepAliveToken);
+                    Cookies.set("authenticationToken", session.spotifyCredentials.accessToken);
                     window.location.assign("/createUser");
                 }
             }

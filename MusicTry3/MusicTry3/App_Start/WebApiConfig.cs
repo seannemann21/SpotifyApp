@@ -40,6 +40,12 @@ namespace MusicTry3
                 defaults: new { controller = "spotify", id = RouteParameter.Optional }
             );
 
+            config.Routes.MapHttpRoute(
+                name: "Playback",
+                routeTemplate: "api/session/{sesssionId}/playlist/{playlistId}/playback/{action}",
+                defaults: new { controller = "playback"}
+            );
+
         }
     }
 }
