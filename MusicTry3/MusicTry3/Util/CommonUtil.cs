@@ -24,5 +24,11 @@ namespace MusicTry3.Util
 
             return playlist;
         }
+
+        public static string Base64Encode(string text)
+        {
+            var textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes);
+        }
     }
 }
