@@ -22,7 +22,8 @@ namespace MusicTry3.Models
                     {
                         DateTime now = DateTime.UtcNow;
                         sessions.RemoveAll(x => x.lastContactWithMaster.AddMinutes(1).Ticks < now.Ticks);
-                        Thread.Sleep(30000);
+                        // 20 minutes
+                        Thread.Sleep(20*60*1000);
                     }
                 });
                 deadSessionRemover.Start();
