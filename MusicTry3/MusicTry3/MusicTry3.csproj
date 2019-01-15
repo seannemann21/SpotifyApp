@@ -116,11 +116,14 @@
     <Content Include="Front\keep-alive.js" />
     <Content Include="Front\landing.aspx" />
     <Content Include="Front\landing.js" />
+    <Content Include="Front\O4YIHQ0.jpg" />
+    <Content Include="Front\O4YIHQ1.svg" />
     <Content Include="Front\playlist.aspx" />
     <Content Include="Front\playlist.js" />
     <Content Include="Front\session.aspx" />
     <Content Include="Front\session.js" />
     <Content Include="Global.asax" />
+    <Content Include="Resources\O4YIHQ0.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +169,10 @@
     <Compile Include="Util\CommonUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Front\O4YIHQ1.eps" />
+    <Content Include="Front\Gtoles.ttf" />
     <None Include="packages.config" />
+    <Content Include="Resources\O4YIHQ1.eps" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
