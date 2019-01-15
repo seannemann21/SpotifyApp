@@ -107,6 +107,11 @@
                     <div class="col-sm-2">
                         <a href id="next"><i class="glyph fa fa-step-forward"></i></a>
                     </div>
+                    <div class="col-sm-4">
+                        <div class="progress">
+                            <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
           </div>

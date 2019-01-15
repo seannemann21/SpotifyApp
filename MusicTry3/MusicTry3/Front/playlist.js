@@ -15,6 +15,10 @@ $(document).ready(function () {
         setupSpotifyPlayback(authenticationToken, sessionId, playlistId);
     }
 
+    setInterval(function () {
+        UpdateProgressBar();
+    }, 200);
+
     UpdatePlaylistData(sessionId, playlistId, username);
     setInterval(function () {
         UpdatePlaylistData(sessionId, playlistId, username);
@@ -144,8 +148,7 @@ function UpdatePlaylistData(sessionId, playlistId, name) {
                             AddRowToQueueTable(realTracks[i].track);
                         }
                         for (var i in playlist.onBoardingSongs) {
-                            AddRowToOnboar
-                            dingTable(sessionId, playlistId, playlist.onBoardingSongs[i], name);
+                            AddRowToOnboardingTable(sessionId, playlistId, playlist.onBoardingSongs[i], name);
                         }
                     }
                 }
@@ -248,6 +251,7 @@ function setupSpotifyPlayback(authToken, sessionId, playlistId) {
         // Playback status updates
         player.addListener('player_state_changed', state => {
             console.log(state);
+            UpdatePlayback(state);
         });
 
         // Ready
@@ -260,12 +264,35 @@ function setupSpotifyPlayback(authToken, sessionId, playlistId) {
         player.addListener('not_ready', ({ device_id }) => {
             console.log('Device ID has gone offline', device_id);
         });
-
+        
         // Connect to the player!
         player.connect();
     };
 
     
+}
+
+function UpdatePlayback(state) {
+    if (state) {
+        UpdateProgressBarState(state);
+    }
+}
+
+var progress = 0;
+var playing = false;
+var progressIncrement = 0;
+function UpdateProgressBarState(state) {
+    // every .2 seconds will increment
+    progressIncrement = 100 / ((state.duration / 1000) * 5);
+    playing = !state.paused;
+    progress = state.position * 100 / state.duration;
+}
+
+function UpdateProgressBar() {
+    if (playing) {
+        progress += progressIncrement;
+    }
+    $("#progressBar").css('width', progress + '%');
 }
 
 function exitSession() {
