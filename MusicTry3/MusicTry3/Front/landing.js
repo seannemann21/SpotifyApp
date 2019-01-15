@@ -1,23 +1,11 @@
 ﻿$(document).ready(function () {
     if (Cookies.get("sessionId") != null && Cookies.get("userstatus") != null && Cookies.get("username") != null) {
         window.location.assign("/session");
-    }
-
-    var code = GetURLParameter("code");
-    if (code != null) {
-        $.ajax({
-            url: '/api/session?code=' + code,
-            type: 'post',
-            success: function (session) {
-                if (session != null) {
-                    Cookies.set("sessionId", session.id);
-                    Cookies.set("userstatus", "master");
-                    Cookies.set("keep-alive", session.keepAliveToken);
-                    Cookies.set("authenticationToken", session.spotifyCredentials.accessToken);
-                    window.location.assign("/createUser");
-                }
-            }
-        });
+    } else {
+        Cookies.remove("username");
+        Cookies.remove("userstatus");
+        Cookies.remove("sessionId");
+        Cookies.remove("keep-alive");
     }
 
     $('#joinRoom').submit(function (e) {
@@ -26,9 +14,9 @@
             url: '/api/session/' + $('#session').val(),
             type: 'get',
             success: function () {
-                Cookies.set("sessionId", $('#session').val());
-                Cookies.set("userstatus", "regular");
-                window.location.assign("/createUser");
+                Cookies.set("sessionId", $('#session').val(), { path: '/home' });
+                Cookies.set("userstatus", "regular", { path: '/home' });
+                window.location.assign("/createUser", { path: '/home' });
             },
             error: function () {
                 $('#roomError').show();
