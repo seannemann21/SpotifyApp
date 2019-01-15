@@ -4,6 +4,31 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
+<style type = "text/css">
+  .btn{
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color:white;
+  }
+  .form-control::-webkit-input-placeholder { /* Chrome */
+  color: #ffc107;
+}
+.form-control:-ms-input-placeholder { /* IE 10+ */
+  color: #ffc107;
+}
+.form-control::-moz-placeholder { /* Firefox 19+ */
+  color: #ffc107;
+  opacity: 1;
+}
+.form-control:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #ffc107;
+  opacity: 1;
+}
+a{
+    color: #ffc107;
+}
+</style>
+
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -25,23 +50,21 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <h3 id="sessionName"></h3>
+        <div class="row" style="padding-top:1em">
+            <div class="col">
+                <span class="h3">Room Name: <span id="sessionName"></span></span>
+                <button id="exitSession" class="btn btn-primary" style="float:right">Leave</button>
             </div>
         </div>
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col">
              <div class="form-inline">
-               <div class="form-group">
-                 <label for="name">Playlist Name:</label>
-                 <input type="text" class="form-control" id="name" name="name">
+               <div class="form-group" style="margin-bottom:0">
+                 <input type="text" class="form-control" id="name" name="name" placeholder="Playlist Name">
                </div>
-               <button id="createPlaylistButton" type="submit" class="btn btn-primary">Create</button>
+               <button id="createPlaylistButton" type="submit" class="btn btn-primary" style="margin:1em">Create</button>
              </div>
-          </div>
-          <div class="col-sm-3">
-            <button id="exitSession" class="btn btn-primary">Exit Session</button>
+            </div>
           </div>
         </div>
     </div>
