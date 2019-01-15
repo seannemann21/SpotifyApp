@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
-    if (Cookies.get("sessionId") != null && Cookies.get("userstatus") != null && Cookies.get("username") != null) {
+    if (window.sessionStorage.getItem("sessionId") != null && window.sessionStorage.getItem("userstatus") != null && window.sessionStorage.getItem("username") != null) {
         window.location.assign("/session");
     }
-    var sessionId = Cookies.get("sessionId");
+    var sessionId = window.sessionStorage.getItem("sessionId");
     if (sessionId == null) {
     var code = GetURLParameter("code");
     if (code != null) {
@@ -11,10 +11,10 @@
             type: 'post',
             success: function (session) {
                 if (session != null) {
-                    Cookies.set("sessionId", session.id);
-                    Cookies.set("userstatus", "master");
-                    Cookies.set("keep-alive", session.keepAliveToken);
-                    Cookies.set("authenticationToken", session.spotifyCredentials.accessToken);
+                    window.sessionStorage.setItem("sessionId", session.id);
+                    window.sessionStorage.setItem("userstatus", "master");
+                    window.sessionStorage.setItem("keep-alive", session.keepAliveToken);
+                    window.sessionStorage.setItem("authenticationToken", session.spotifyCredentials.accessToken);
                     sessionId = session.id;
                 }
             }
@@ -29,7 +29,7 @@
             url: '/api/session/Createuser?username=' + $("#username").val() + '&sessionId=' + sessionId,
             type: 'put',
             success: function (data) {
-                Cookies.set("username", $("#username").val());
+                window.sessionStorage.setItem("username", $("#username").val());
                 window.location.assign("/session");
             }
         });

@@ -1,11 +1,11 @@
 ﻿$(document).ready(function () {
-    if (Cookies.get("sessionId") != null && Cookies.get("userstatus") != null && Cookies.get("username") != null) {
+    if (window.sessionStorage.getItem("sessionId") != null && window.sessionStorage.getItem("userstatus") != null && window.sessionStorage.getItem("username") != null) {
         window.location.assign("/session");
     } else {
-        Cookies.remove("username");
-        Cookies.remove("userstatus");
-        Cookies.remove("sessionId");
-        Cookies.remove("keep-alive");
+        window.sessionStorage.removeItem("username");
+        window.sessionStorage.removeItem("userstatus");
+        window.sessionStorage.removeItem("sessionId");
+        window.sessionStorage.removeItem("keep-alive");
     }
 
     $('#joinRoom').submit(function (e) {
@@ -14,9 +14,9 @@
             url: '/api/session/' + $('#session').val(),
             type: 'get',
             success: function () {
-                Cookies.set("sessionId", $('#session').val(), { path: '/home' });
-                Cookies.set("userstatus", "regular", { path: '/home' });
-                window.location.assign("/createUser", { path: '/home' });
+                window.sessionStorage.setItem("sessionId", $('#session').val());
+                window.sessionStorage.setItem("userstatus", "regular");
+                window.location.assign("/createUser");
             },
             error: function () {
                 $('#roomError').show();

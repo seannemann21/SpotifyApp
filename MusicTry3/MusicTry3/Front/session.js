@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
-    var sessionId = Cookies.get("sessionId");
-    var username = Cookies.get("username");
-    var userstatus = Cookies.get("userstatus");
+    var sessionId = window.sessionStorage.getItem("sessionId");
+    var username = window.sessionStorage.getItem("username");
+    var userstatus = window.sessionStorage.getItem("userstatus");
 
     setupPage(sessionId, username, userstatus);
     
@@ -37,10 +37,10 @@
 });
 
 function exitSession() {
-    Cookies.remove("username");
-    Cookies.remove("userstatus");
-    Cookies.remove("sessionId");
-    Cookies.remove("keep-alive");
+    window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("userstatus");
+    window.sessionStorage.removeItem("sessionId");
+    window.sessionStorage.removeItem("keep-alive");
     window.location.assign("/home");
 }
 

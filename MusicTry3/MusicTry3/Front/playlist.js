@@ -3,10 +3,10 @@ var deviceID = null;
 var endOfSongPauses = 0;
 
 $(document).ready(function () {
-    var authenticationToken = Cookies.get("authenticationToken");
-    var sessionId = Cookies.get("sessionId");
+    var authenticationToken = window.sessionStorage.getItem("authenticationToken");
+    var sessionId = window.sessionStorage.getItem("sessionId");
     var playlistId = GetURLParameter("playlistId");
-    var username = Cookies.get("username");
+    var username = window.sessionStorage.getItem("username");
 
     $("#next").hide();
     $("#pause").hide();
