@@ -141,18 +141,18 @@
     </Compile>
     <Compile Include="Models\IPlaylist.cs" />
     <Compile Include="Models\MockPlaylist.cs" />
-    <Compile Include="Models\SpotifyContextObject.cs" />
-    <Compile Include="Models\SpotifyDevice.cs" />
-    <Compile Include="Models\SpotifyDeviceReturnObject.cs" />
-    <Compile Include="Models\SpotifyOffset.cs" />
-    <Compile Include="Models\SpotifyPlaylistTrackResponse.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyContextObject.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyDevice.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyDeviceReturnObject.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyOffset.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyPlaylistTrackResponse.cs" />
     <Compile Include="Models\TokenRefresher.cs" />
-    <Compile Include="Models\SpotifyTokenRefreshResponse.cs" />
-    <Compile Include="Models\SpotifyTrackWrapper.cs" />
-    <Compile Include="Models\SpotifyPlaybackContext.cs" />
-    <Compile Include="Models\SpotifyTrackAdditionRequest.cs" />
-    <Compile Include="Models\SpotifyTrackResponse.cs" />
-    <Compile Include="Models\SpotifyArtist.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTokenRefreshResponse.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTrackWrapper.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyPlaybackContext.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTrackAdditionRequest.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTrackResponse.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyArtist.cs" />
     <Compile Include="Models\ISessionRepo.cs" />
     <Compile Include="Models\MockedSessionRepo.cs" />
     <Compile Include="Models\OnBoardingSong.cs" />
@@ -161,11 +161,11 @@
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\SessionRepo.cs" />
     <Compile Include="Models\Song.cs" />
-    <Compile Include="Models\SpotifyPlaylist.cs" />
-    <Compile Include="Models\SpotifyPlaylistRequestBody.cs" />
-    <Compile Include="Models\SpotifyTokenResponse.cs" />
-    <Compile Include="Models\SpotifyTrack.cs" />
-    <Compile Include="Models\SpotifyUser.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyPlaylist.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyPlaylistRequestBody.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTokenResponse.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyTrack.cs" />
+    <Compile Include="SpotifyApiObjectModels\SpotifyUser.cs" />
     <Compile Include="Models\StartResumeRequestBody.cs" />
     <Compile Include="Models\UnityResolver.cs" />
     <Compile Include="Models\Credentials.cs" />
@@ -187,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="SpotifyApiObjectModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
