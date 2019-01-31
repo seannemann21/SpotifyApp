@@ -16,7 +16,7 @@ namespace MusicTry3.Models
 
         public String id { get; set; }
         public SpotifyCredentials spotifyCredentials { get; set; }
-        public List<Playlist> playlists { get; set; }
+        public List<IPlaylist> playlists { get; set; }
         public List<User> users { get; set; }
         public SpotifyUser spotifyUser { get; set; }
         public DateTime lastContactWithMaster { get; set; }
@@ -27,7 +27,7 @@ namespace MusicTry3.Models
         {
             this.spotifyCredentials = credentials;
             this.id = GenerateId(existingSessionIds, random);
-            this.playlists = new List<Playlist>();
+            this.playlists = new List<IPlaylist>();
             this.users = new List<User>();
             this.spotifyUser = spotifyUser;
             this.lastContactWithMaster = DateTime.UtcNow;

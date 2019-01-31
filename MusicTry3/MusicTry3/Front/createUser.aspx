@@ -3,30 +3,27 @@
 <head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Front/general.css">
 <style type = "text/css">
   body {
-  background-image: url("/Front/O4YIHQ1.svg");
+  background: url("/Front/SmallCassette.jpg");
   }
-  .btn{
-      background-color: #ffc107;
-      border-color: #ffc107;
-      color:white;
-  }
-  
-.form-control::-webkit-input-placeholder { /* Chrome */
-  color: #ffc107;
+  /*
+.form-control::-webkit-input-placeholder {
+  color: forestgreen;
 }
-.form-control:-ms-input-placeholder { /* IE 10+ */
-  color: #ffc107;
+.form-control:-ms-input-placeholder {
+  color: forestgreen;
 }
-.form-control::-moz-placeholder { /* Firefox 19+ */
-  color: #ffc107;
+.form-control::-moz-placeholder {
+  color: forestgreen;
   opacity: 1;
 }
-.form-control:-moz-placeholder { /* Firefox 4 - 18 */
-  color: #ffc107;
+.form-control:-moz-placeholder {
+  color: forestgreen;
   opacity: 1;
 }
+*/
 </style>
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -53,24 +50,26 @@
     <div class="container-fluid">
         <div class="row" style="justify-content:center; padding-top:13em">
             <div class="col">
-          <div style="width:20em;padding-top:1em;padding-bottom:1em;border:solid;border-color:white;border-radius:0.5em;background:white; margin:auto">
+          <div class="shadow-lg" style="width:20em;padding-top:1em;padding-bottom:1em;border:solid;border-color:white;border-radius:0.5em;background:white; margin:auto">
               <div class="row" style="padding:0.5em">
                   <div class="col">
              <form id="submitUserForm">
                <div class="form-group">
-                 <input type="text" class="form-control" id="username" name="username" placeholder="Username" style="color:#ffc107">
+                 <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                </div>
-               <button type="submit" class="btn btn-primary" style="width:100%">Enter</button>
+               <button type="submit" class="btn btn-default" style="width:100%">Enter</button>
              </form>
               </div>
                   </div>
+                <div class="row" style="padding:0.5em; padding-bottom:0em">
+                    <div class="col">
+                        <h6><span id="userError" style="display: none">User Already Exists</span></h6>
+                    </div>
+                </div>
           </div>
                 </div>
         </div>
+
     </div>
-    <footer style="position:absolute; bottom:0; left:0; color:white">
-        Background
-        <u><a style="color:white" href="https://www.freepik.com/free-vector/abstract-geometric-background-in-orange-and-yellow-tones_849322.htm">Designed by Yurlick</a></u>
-    </footer>
 </body>
 </html>

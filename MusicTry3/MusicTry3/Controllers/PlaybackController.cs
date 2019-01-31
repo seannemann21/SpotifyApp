@@ -1,5 +1,7 @@
 ﻿using MusicTry3.Models;
 using MusicTry3.Util;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace MusicTry3.Controllers
         [Route("play")]
         public IHttpActionResult Play(string sessionId, string playlistId, string deviceId)
         {
-            Playlist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
             if(playlist != null)
             {
                 playlist.Play(deviceId);
@@ -37,7 +39,7 @@ namespace MusicTry3.Controllers
         [Route("pause")]
         public IHttpActionResult Pause(string sessionId, string playlistId)
         {
-            Playlist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
             if (playlist != null)
             {
                 playlist.Pause();
@@ -50,13 +52,39 @@ namespace MusicTry3.Controllers
         [Route("next")]
         public IHttpActionResult Next(string sessionId, string playlistId)
         {
-            Playlist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
             if (playlist != null)
             {
                 playlist.Next();
             }
 
             return Ok();
+        }
+
+
+        [HttpGet]
+        [Route("devices")]
+        public IHttpActionResult Devices(string sessionId, string playlistId)
+        {
+            List<SpotifyDevice> restResponse = null;
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if (session != null)
+            {
+                restResponse = GetDevices(session.spotifyCredentials.accessToken);
+            }
+            return restResponse != null ? (IHttpActionResult)Ok(restResponse) : NotFound();
+        }
+
+        private List<SpotifyDevice> GetDevices(string authorizationToken)
+        {
+            var client = new RestClient(Constants.Spotify.WebApiBase + "me/player");
+            var request = new RestRequest("devices", Method.GET);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", "Bearer " + authorizationToken);
+            IRestResponse response = client.Execute(request);
+
+            SpotifyDeviceReturnObject result = JsonConvert.DeserializeObject<SpotifyDeviceReturnObject>(response.Content);
+            return result.devices;
         }
 
     }

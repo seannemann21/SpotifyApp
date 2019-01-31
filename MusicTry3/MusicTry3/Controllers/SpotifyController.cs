@@ -21,7 +21,7 @@ namespace MusicTry3.Controllers
         {
             sessions = sessionRepo.GetSessions();
         }
-
+        
         [HttpGet]
         public IHttpActionResult Search(string query, string sessionId)
         {

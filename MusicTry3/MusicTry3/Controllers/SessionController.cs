@@ -92,9 +92,30 @@ namespace MusicTry3.Controllers
         }
 
         [HttpPut]
-        public void Createuser(string username, string sessionId)
+        public IHttpActionResult Createuser(string username, string sessionId)
         {
-            // implement
+            bool userCreated = false;
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if (session != null)
+            {
+                if(!session.users.Exists(x => x.name == username))
+                {
+                    session.users.Add(new User(username));
+                    userCreated = true;
+                }
+            }
+
+            IHttpActionResult result;
+            if(userCreated) {
+                result = Ok();
+            } else if(session == null) {
+                result = NotFound();
+            } else {
+                result = Conflict();
+            }
+
+            return result;
         }
+
     }
 }

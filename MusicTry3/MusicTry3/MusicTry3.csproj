@@ -46,6 +46,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.11\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -110,20 +113,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Front\SpaceBackground.jpg" />
+    <Content Include="Front\BlackBackground.jpg" />
+    <Content Include="Front\TealBackground.jpg" />
+    <Content Include="Front\BlueBackground.jpg" />
+    <Content Include="Front\OrangeBackground.jpg" />
+    <Content Include="Front\audio-black-and-white-black-and-white-6966.jpg" />
+    <Content Include="Front\audio-cassette-cassette-tape-1626481.jpg" />
+    <Content Include="Front\BrickWall.jpg" />
+    <Content Include="Front\Cassette.jpg" />
     <Content Include="Front\createUser.aspx" />
     <Content Include="Front\createUser.js" />
     <Content Include="Front\general.css" />
+    <Content Include="Front\GreenLeaf.jpg" />
     <Content Include="Front\keep-alive.js" />
     <Content Include="Front\landing.aspx" />
     <Content Include="Front\landing.js" />
-    <Content Include="Front\O4YIHQ0.jpg" />
-    <Content Include="Front\O4YIHQ1.svg" />
     <Content Include="Front\playlist.aspx" />
     <Content Include="Front\playlist.js" />
     <Content Include="Front\session.aspx" />
     <Content Include="Front\session.js" />
+    <Content Include="Front\SmallCassette.jpg" />
     <Content Include="Global.asax" />
-    <Content Include="Resources\O4YIHQ0.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +148,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IPlaylist.cs" />
+    <Compile Include="Models\MockPlaylist.cs" />
     <Compile Include="Models\SpotifyContextObject.cs" />
+    <Compile Include="Models\SpotifyDevice.cs" />
+    <Compile Include="Models\SpotifyDeviceReturnObject.cs" />
     <Compile Include="Models\SpotifyOffset.cs" />
     <Compile Include="Models\SpotifyPlaylistTrackResponse.cs" />
     <Compile Include="Models\SpotifyTokenRefresher.cs" />
@@ -169,10 +184,9 @@
     <Compile Include="Util\CommonUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Front\O4YIHQ1.eps" />
     <Content Include="Front\Gtoles.ttf" />
     <None Include="packages.config" />
-    <Content Include="Resources\O4YIHQ1.eps" />
+    <None Include="Properties\PublishProfiles\MusicTry320190127041227 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -182,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,19 +1,33 @@
 ﻿var lastPlaylist = null;
 var deviceID = null;
+var lastSession = null;
 var endOfSongPauses = 0;
 
 $(document).ready(function () {
+    
     var authenticationToken = window.sessionStorage.getItem("authenticationToken");
     var sessionId = window.sessionStorage.getItem("sessionId");
     var playlistId = GetURLParameter("playlistId");
     var username = window.sessionStorage.getItem("username");
+    var userstatus = window.sessionStorage.getItem("userstatus");
+
+    if (userstatus !== "master") {
+        $("#play").hide();
+        $("#progressBarDiv").hide();
+    }
 
     $("#next").hide();
     $("#pause").hide();
-
+    /*
     if (authenticationToken != null) {
         setupSpotifyPlayback(authenticationToken, sessionId, playlistId);
     }
+    */
+
+    UpdateSessionData(sessionId, username);
+    setInterval(function () {
+        UpdateSessionData(sessionId, username);
+    }, 1000);
 
     setInterval(function () {
         UpdateProgressBar();
@@ -65,7 +79,7 @@ $(document).ready(function () {
             var trackArtist = artistAndName[1];
             var trackUri = ui.item.value;
             $.ajax({
-                url: '/api/session/' + sessionId + '/playlist?sessionId=' + sessionId + '&playlistId=' + playlistId + '&trackUri=' + trackUri + '&name=' + trackName + '&artist=' + trackArtist,
+                url: '/api/session/' + sessionId + '/playlist?sessionId=' + sessionId + '&playlistId=' + playlistId + '&trackUri=' + trackUri + '&name=' + trackName + '&artist=' + trackArtist + '&submitter=' + username,
                 type: 'put',
                 success: function (tracks) {
                     $("#search").val('');
@@ -163,6 +177,44 @@ function UpdatePlaylistData(sessionId, playlistId, name) {
     });
 }
 
+
+function UpdateSessionData(sessionId, username) {
+    $.ajax({
+        url: '/api/session/' + sessionId,
+        type: 'get',
+        success: function (session) {
+            if (session != null && (lastSession == null || JSON.stringify(lastSession) !== JSON.stringify(session))) {
+                ClearSessionData();
+                var users = session.users;
+                if (users != null) {
+                    for (var i in users) {
+                        AddRowToUsersTable(users[i]);
+                        if (users[i].name == username) {
+                            if (users[i].readyForFreePick) {
+                                $("#freePickIndicator").show();
+                            } else {
+                                $("#freePickIndicator").hide();
+                            }
+                        }
+                    }
+                }
+
+                lastSession = session;
+            }
+        }
+    });
+}
+
+
+function AddRowToUsersTable(user) {
+    $("#userTableBody").append("<tr class='userTableRow'><td>" + user.name + "</td><td>" + user.totalSongsSelected + "</td></tr>");
+}
+
+function ClearSessionData() {
+    $("#userTableBody tr").remove();
+}
+
+
 function AddRowToQueueTable(track) {
     var row = "<tr><td>" + track.name + "</td><td>" + track.artists[0].name + "</td></tr>";
     $("#playlistQueueTableBody").append(row);
@@ -235,6 +287,7 @@ function GetURLParameter(sParam) {
 }
 
 function setupSpotifyPlayback(authToken, sessionId, playlistId) {
+
     window.onSpotifyWebPlaybackSDKReady = () => {
         const token = authToken;
         const player = new Spotify.Player({
@@ -296,9 +349,10 @@ function UpdateProgressBar() {
 }
 
 function exitSession() {
-    Cookies.remove("username");
-    Cookies.remove("userstatus");
-    Cookies.remove("sessionId");
-    Cookies.remove("keep-alive");
+    window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("userstatus");
+    window.sessionStorage.removeItem("sessionId");
+    window.sessionStorage.removeItem("keep-alive");
+    window.sessionStorage.removeItem("authentication-token");
     window.location.assign("/home");
 }

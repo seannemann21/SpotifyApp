@@ -33,7 +33,7 @@ namespace MusicTry3.Controllers
         [HttpGet]
         public IHttpActionResult Get(string sessionId, string id)
         {
-            Playlist playlist = null;
+            IPlaylist playlist = null;
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if (session != null)
             {
@@ -50,7 +50,7 @@ namespace MusicTry3.Controllers
         [HttpPost]
         public IHttpActionResult Post(string sessionId, [FromBody] string name)
         {
-            Playlist playlist = null;
+            IPlaylist playlist = null;
             Session currentSession = CommonUtil.GetSession(sessions, sessionId);
             if(currentSession != null)
             {
@@ -66,17 +66,30 @@ namespace MusicTry3.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Put(string sessionId, string playlistId, string trackUri, string name, string artist)
+        public IHttpActionResult Put(string sessionId, string playlistId, string trackUri, string name, string artist, string submitter)
         {
             // add track to onboarding track list
             bool trackAdded = false;
-            Playlist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
-            if(currentPlaylist != null)
+            IPlaylist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            Session currentSession = CommonUtil.GetSession(sessions, sessionId);
+            if(currentSession != null)
             {
-                currentPlaylist.onBoardingSongs.Add(new OnBoardingSong { artist = artist, name = name, trackUri = trackUri, votes = new List<Vote>() });
-                trackAdded = true;
+                if(currentSession.users != null)
+                {
+                    User currentUser = currentSession.users.Find(x => x.name == submitter);
+                    if(currentUser != null)
+                    {
+                        if (currentPlaylist != null)
+                        {
+                            bool priority = currentUser.readyForFreePick;
+                            currentPlaylist.onBoardingSongs.Add(new OnBoardingSong(artist, name, trackUri, priority, currentUser));
+                            currentUser.readyForFreePick = false;
+                            trackAdded = true;
+                        }
+                    }
+                }
             }
-
+            
             return trackAdded ? (IHttpActionResult) Ok() : NotFound();
         }
 
@@ -85,18 +98,23 @@ namespace MusicTry3.Controllers
         {
             // update track vote in onboarding track list
             bool trackUpdated = false;
-            Playlist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            IPlaylist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
+            Session currentSession = CommonUtil.GetSession(sessions, sessionId);
             if (currentPlaylist != null)
             {
                 OnBoardingSong track = currentPlaylist.onBoardingSongs.Find(x => x.trackUri == trackUri);
                 if(track != null)
                 {
+                    // username is unique id
                     Vote vote = track.votes.Find(x => x.user.name == username);
                     if (vote == null)
                     {
                         vote = new Vote();
-                        vote.user = new User();
-                        vote.user.name = username;
+                        User currentUser = currentSession.users.Find(x => x.name == username);
+                        if (currentUser != null)
+                        {
+                            vote.user = currentUser;
+                        }
                         track.votes.Add(vote);
                     }
                     vote.score = rating;

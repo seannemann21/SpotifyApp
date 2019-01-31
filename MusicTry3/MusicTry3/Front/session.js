@@ -21,7 +21,7 @@
         });
     });
 
-    $('#exitSession').click(function (e) {
+    $('.exit').click(function (e) {
         e.preventDefault();
         if (userstatus == "master") {
             $("#endSessionModal").modal('show');
@@ -41,6 +41,7 @@ function exitSession() {
     window.sessionStorage.removeItem("userstatus");
     window.sessionStorage.removeItem("sessionId");
     window.sessionStorage.removeItem("keep-alive");
+    window.sessionStorage.removeItem("authentication-token");
     window.location.assign("/home");
 }
 

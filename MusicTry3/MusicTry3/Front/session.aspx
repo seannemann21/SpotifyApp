@@ -3,30 +3,39 @@
 <head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/Front/general.css">
 <style type = "text/css">
-  .btn{
-      background-color: #ffc107;
-      border-color: #ffc107;
+  
+  body {
+  background: url("/Front/SmallCassette.jpg");
+  }
+
+  .table {
       color:white;
   }
-  .form-control::-webkit-input-placeholder { /* Chrome */
-  color: #ffc107;
-}
-.form-control:-ms-input-placeholder { /* IE 10+ */
-  color: #ffc107;
-}
-.form-control::-moz-placeholder { /* Firefox 19+ */
-  color: #ffc107;
-  opacity: 1;
-}
-.form-control:-moz-placeholder { /* Firefox 4 - 18 */
-  color: #ffc107;
-  opacity: 1;
-}
+
+  .table thead th {
+    border-bottom: 2px solid white;
+   }
+
+  .table td, .table th {
+    border-top: 1px solid white;
+   }
+
 a{
-    color: #ffc107;
+    color: white;
 }
+
+    @media screen and (max-width: 500px) {
+
+        .hide-on-500-shrink {
+            display: none !important;
+        }
+
+        .show-on-500-shrink {
+            display: inline-block !important;
+        }
+    }
 </style>
 
 <!-- jQuery library -->
@@ -40,8 +49,8 @@ a{
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-<script src="Front/session.js"></script>
-<script src="Front/keep-alive.js"></script>
+<script src="/Front/session.js"></script>
+<script src="/Front/keep-alive.js"></script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,25 +61,27 @@ a{
     <div class="container-fluid">
         <div class="row" style="padding-top:1em">
             <div class="col">
-                <span class="h3">Room Name: <span id="sessionName"></span></span>
-                <button id="exitSession" class="btn btn-primary" style="float:right">Leave</button>
+                <span class="h3" style="color:white">Room Name: <span id="sessionName"></span></span>
+                <button class="btn btn-default hide-on-500-shrink exit" style="float:right">Leave</button>
             </div>
         </div>
         <div class="row">
           <div class="col">
+              <form>
              <div class="form-inline">
-               <div class="form-group" style="margin-bottom:0">
-                 <input type="text" class="form-control" id="name" name="name" placeholder="Playlist Name">
+               <div class="form-group" style="margin-bottom:0; margin-right:1em">
+                 <input type="text" class="form-control" id="name" name="name" placeholder="Playlist Name" maxlength="20">
                </div>
-               <button id="createPlaylistButton" type="submit" class="btn btn-primary" style="margin:1em">Create</button>
+               <button id="createPlaylistButton" type="submit" class="btn btn-default" style="margin-top:1em;margin-bottom:1em">Create</button>
              </div>
+             </form>
             </div>
           </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-bottom: 40px;">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-12">
              <table class="table table-striped">
                 <thead>
                   <tr>
@@ -102,5 +113,9 @@ a{
       
         </div>
       </div>
+    
+    <div id="bottom-exit" class="show-on-500-shrink" style="position:fixed; bottom:13px;width:100%; display:none;height:24px">
+        <button class="btn btn-default exit" style="width:100%">Leave</button>
+    </div>
 </body>
 </html>

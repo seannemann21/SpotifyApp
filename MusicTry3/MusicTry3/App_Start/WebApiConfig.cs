@@ -1,4 +1,5 @@
-﻿using MusicTry3.Models;
+﻿using log4net.Config;
+using MusicTry3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace MusicTry3
     {
         public static void Register(HttpConfiguration config)
         {
-            
+
+            XmlConfigurator.Configure();
+
             var container = new UnityContainer();
             container.RegisterType<ISessionRepo, SessionRepo>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);

@@ -3,35 +3,16 @@
 <head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="/Front/general.css">
 <style type = "text/css">
 
-  body {
-  background-image: url("/Front/O4YIHQ1.svg");
-  }
-  .btn{
-      background-color: #ffc107;
-      border-color: #ffc107;
-      color:white;
+body {
+  background: url("/Front/SmallCassette.jpg");
   }
     @font-face {
         font-family: titleFamily;
         src: url("/Front/Gtoles.ttf");
     }
-
-.form-control::-webkit-input-placeholder { /* Chrome */
-  color: #ffc107;
-}
-.form-control:-ms-input-placeholder { /* IE 10+ */
-  color: #ffc107;
-}
-.form-control::-moz-placeholder { /* Firefox 19+ */
-  color: #ffc107;
-  opacity: 1;
-}
-.form-control:-moz-placeholder { /* Firefox 4 - 18 */
-  color: #ffc107;
-  opacity: 1;
-}
 </style>
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -56,31 +37,36 @@
     <div class="container">
         <div class="row" style="justify-content:center; padding-top:8em;font-family:titleFamily">
             <div class="col" style="text-align: center;font-size: 6em;color: white;">
-                Placeholder
+                We DJ
             </div>
         </div>
-        <div class="row" style="padding-top:5em;">
+        <div class="row" style="justify-content:center; font-family:titleFamily">
+            <div class="col" style="text-align: center;font-size: 3em;color: white;">
+                Start Sharing Music Now
+            </div>
+        </div>
+        <div class="row" style="padding-top:3em;">
             <div class="col">
-            <div style="width:20em;padding-top:1em;padding-bottom:1em;border:solid;border-color:white;border-radius:0.5em;background:white;margin:auto">
+            <div class="shadow-lg" style="width:20em;padding-top:1em;padding-bottom:1em;border:solid;border-color:white;border-radius:0.5em;background:white;margin:auto">
                 <div>
                 <div class="row" style="padding:0.5em">
                     <div class="col-sm-12">
-                        <a href="https://accounts.spotify.com/authorize/?response_type=code&client_id=fffa7e259c734e9d9b681b1fbf07f2f9&scope=user-read-playback-state%20streaming%20user-read-birthdate%20user-read-email%20user-read-private%20playlist-modify-public%20user-modify-playback-state&redirect_uri=https%3A%2F%2Faedb762d.ngrok.io%2FcreateUser%2F"><button style="width:100%" class="btn">Create New Room</button></a>
+                        <a href="https://accounts.spotify.com/authorize/?response_type=code&client_id=fffa7e259c734e9d9b681b1fbf07f2f9&scope=user-read-playback-state%20streaming%20user-read-birthdate%20user-read-email%20user-read-private%20playlist-modify-public%20user-modify-playback-state&redirect_uri=https%3A%2F%2F9fb8e750.ngrok.io%2FcreateUser%2F"><button style="width:100%" class="btn">Create New Room</button></a>
                     </div>
                </div>
                  <div class="row" style="padding:0.5em">
-                   <div class="col-sm-12">
+                   <div class="col">
 
                    <form id="joinRoom">
-                     <input type="text" class="form-control" style="color:#ffc107;width:60%; display:inline-block" id="session" name="session" placeholder="Room">
+                     <input type="text" class="form-control" style="width:60%; display:inline-block" id="session" name="session" placeholder="Room">
                      <button type="submit" style="float:right; padding-left:2em;padding-right:2em" class="btn" >Join</button>
                    </form>
                          
                    </div>
                  </div>
-                <div class="row" style="padding:0.5em">
+                <div class="row" style="padding:0.5em; padding-bottom:0em">
                     <div class="col">
-                        <h6><span id="roomError" style="display: none; color:orangered">Room Not Found</span></h6>
+                        <h6><span id="roomError" style="display: none">Room Not Found</span></h6>
                     </div>
                 </div>
                </div>
@@ -88,9 +74,5 @@
                 </div>
         </div>
             </div>
-    <footer style="position:absolute; bottom:0; left:0; color:white">
-        Background
-        <u><a style="color:white" href="https://www.freepik.com/free-vector/abstract-geometric-background-in-orange-and-yellow-tones_849322.htm">Designed by Yurlick</a></u>
-    </footer>
     </body>
 </html>

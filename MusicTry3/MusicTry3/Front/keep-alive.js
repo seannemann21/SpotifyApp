@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    var sessionId = Cookies.get("sessionId");
-    var keepAlive = Cookies.get("keep-alive");
+    var sessionId = window.sessionStorage.getItem("sessionId");
+    var keepAlive = window.sessionStorage.getItem("keep-alive");
 
     keepSessionAlive(sessionId, keepAlive)
 

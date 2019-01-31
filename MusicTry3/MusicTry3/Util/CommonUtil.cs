@@ -13,9 +13,9 @@ namespace MusicTry3.Util
             return sessions.Find(x => x.id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public static Playlist GetPlaylist(List<Session> sessions, string sessionId, string playlistId)
+        public static IPlaylist GetPlaylist(List<Session> sessions, string sessionId, string playlistId)
         {
-            Playlist playlist = null;
+            IPlaylist playlist = null;
             Session session = sessions.Find(x => x.id.Equals(sessionId, StringComparison.InvariantCultureIgnoreCase));
             if(session != null)
             {

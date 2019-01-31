@@ -31,6 +31,9 @@
             success: function (data) {
                 window.sessionStorage.setItem("username", $("#username").val());
                 window.location.assign("/session");
+            },
+            error: function (e) {
+                $("#userError").show();
             }
         });
     });

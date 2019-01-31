@@ -7,7 +7,6 @@ namespace MusicTry3.Models
 {
     public class StartResumeRequestBody
     {
-        public string context_uri { get; set; }
-        public SpotifyOffset offset { get; set; }
+        public List<string> uris { get; set; }
     }
 }
