@@ -9,7 +9,7 @@ namespace MusicTry3.Models
     {
         public string id { get; set; }
         public string name { get; set; }
-        public SpotifyPlaylistTrackResponse tracks { get; set; }
+        public PlaylistTrackResponse tracks { get; set; }
         public string uri { get; set; }
     }
 }

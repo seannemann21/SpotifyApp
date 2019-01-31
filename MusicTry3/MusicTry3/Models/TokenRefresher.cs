@@ -57,7 +57,7 @@ namespace MusicTry3.Models
             if (response.IsSuccessful)
             {
                 successful = true;
-                SpotifyTokenRefreshResponse refreshResponse = JsonConvert.DeserializeObject<SpotifyTokenRefreshResponse>(response.Content);
+                TokenRefreshResponse refreshResponse = JsonConvert.DeserializeObject<TokenRefreshResponse>(response.Content);
                 credentials.accessToken = refreshResponse.access_token;
             }
 

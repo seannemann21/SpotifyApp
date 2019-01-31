@@ -1,6 +1,6 @@
 ﻿namespace MusicTry3.Models
 {
-    public class SpotifyOffset
+    public class Offset
     {
         public int position { get; set; }
     }

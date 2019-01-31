@@ -25,7 +25,7 @@ namespace MusicTry3.Controllers
         [HttpGet]
         public IHttpActionResult Search(string query, string sessionId)
         {
-            List<SpotifyTrack> restResponse = null;
+            List<Track> restResponse = null;
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if(session != null)
             {
@@ -34,7 +34,7 @@ namespace MusicTry3.Controllers
             return restResponse != null ? (IHttpActionResult) Ok(restResponse) : NotFound();
         }
 
-        private List<SpotifyTrack> SearchSpotify(string query, string accessToken)
+        private List<Track> SearchSpotify(string query, string accessToken)
         {
             var client = new RestClient(Spotify.WebApiBase);
             var request = new RestRequest("search", Method.GET);
@@ -42,10 +42,10 @@ namespace MusicTry3.Controllers
             request.AddParameter("q", query);
             request.AddParameter("type", "track");
             IRestResponse response = client.Execute(request);
-            SpotifyTrackResponse trackResponse = new SpotifyTrackResponse();
+            TrackResponse trackResponse = new TrackResponse();
             if (response.IsSuccessful)
             {
-                Dictionary<String, SpotifyTrackResponse> searchResponse = JsonConvert.DeserializeObject<Dictionary<String, SpotifyTrackResponse>>(response.Content);
+                Dictionary<String, TrackResponse> searchResponse = JsonConvert.DeserializeObject<Dictionary<String, TrackResponse>>(response.Content);
                 if (searchResponse.ContainsKey("tracks"))
                 {
                     trackResponse = searchResponse["tracks"];
@@ -53,7 +53,7 @@ namespace MusicTry3.Controllers
             }
             if(trackResponse.items == null)
             {
-                trackResponse.items = new List<SpotifyTrack>();
+                trackResponse.items = new List<Track>();
             }
             return trackResponse.items;
         }

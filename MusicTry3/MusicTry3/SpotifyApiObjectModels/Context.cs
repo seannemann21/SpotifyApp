@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class SpotifyContextObject
+    public class Context
     {
         public string type { get; set; }
         public string href { get; set; }

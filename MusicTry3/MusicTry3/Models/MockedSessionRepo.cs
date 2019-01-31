@@ -85,19 +85,19 @@ namespace MusicTry3.Models
         {
             if (spotifyPlaylist.tracks == null)
             {
-                spotifyPlaylist.tracks = new SpotifyPlaylistTrackResponse();
+                spotifyPlaylist.tracks = new PlaylistTrackResponse();
             }
 
             if(spotifyPlaylist.tracks.items == null)
             {
-                spotifyPlaylist.tracks.items = new List<SpotifyTrackWrapper>();
+                spotifyPlaylist.tracks.items = new List<TrackWrapper>();
             }
 
-            SpotifyTrackWrapper wrapper = new SpotifyTrackWrapper();
-            wrapper.track = new SpotifyTrack();
-            SpotifyArtist artistObj = new SpotifyArtist();
+            TrackWrapper wrapper = new TrackWrapper();
+            wrapper.track = new Track();
+            Artist artistObj = new Artist();
             artistObj.name = artist;
-            wrapper.track.artists = new List<SpotifyArtist>();
+            wrapper.track.artists = new List<Artist>();
             wrapper.track.artists.Add(artistObj);
             wrapper.track.name = name;
             spotifyPlaylist.tracks.items.Add(wrapper);

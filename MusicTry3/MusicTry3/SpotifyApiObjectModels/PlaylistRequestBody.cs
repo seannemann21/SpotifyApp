@@ -5,8 +5,8 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class SpotifyTrackWrapper
+    public class PlaylistRequestBody
     {
-        public SpotifyTrack track { get; set; }
+        public string name { get; set; }
     }
 }

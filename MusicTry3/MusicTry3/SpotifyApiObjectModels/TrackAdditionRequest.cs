@@ -5,8 +5,8 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class SpotifyDeviceReturnObject
+    public class TrackAdditionRequest
     {
-        public List<SpotifyDevice> devices { get; set; }
+        public List<string> uris { get; set; }
     }
 }

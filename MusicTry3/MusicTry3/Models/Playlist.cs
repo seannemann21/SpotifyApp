@@ -41,7 +41,7 @@ namespace MusicTry3.Models
                 {
                     if(playingThroughConnectAPI)
                     {
-                        SpotifyPlaybackContext playbackContext;
+                        PlaybackContext playbackContext;
                         if (credentials != null)
                         {
                             playbackContext = GetPlaybackContext(credentials.accessToken);
@@ -69,7 +69,7 @@ namespace MusicTry3.Models
             onBoardingSelector = new Thread(() => {
                 while(running)
                 {
-                    SpotifyPlaybackContext playbackContext;
+                    PlaybackContext playbackContext;
                     if (credentials != null)
                     {
                         playbackContext = GetPlaybackContext(credentials.accessToken);
@@ -176,7 +176,7 @@ namespace MusicTry3.Models
         }
 
         // returns true if there are more unplayedSongs in queue than bufferSongs, false if equal to or less than buffer songs or the current song played isn't in playlist
-        private bool AtLeastThisManySongsInPlaylistQueue(int bufferSongs, SpotifyPlaybackContext playbackContext, SpotifyPlaylist spotifyPlaylist)
+        private bool AtLeastThisManySongsInPlaylistQueue(int bufferSongs, PlaybackContext playbackContext, SpotifyPlaylist spotifyPlaylist)
         {
             return spotifyPlaylist.tracks.items.Count > (this.nextSongOffset + bufferSongs);
         }
@@ -221,14 +221,14 @@ namespace MusicTry3.Models
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             request.AddHeader("Content-type", "application/json");
-            SpotifyTrackAdditionRequest trackAddition = new SpotifyTrackAdditionRequest();
+            TrackAdditionRequest trackAddition = new TrackAdditionRequest();
             trackAddition.uris = new List<string>();
             trackAddition.uris.Add(trackUri);
             request.AddBody(trackAddition);
             IRestResponse response = client.Execute(request);
         }
 
-        private SpotifyPlaybackContext GetPlaybackContext(string authorizationToken)
+        private PlaybackContext GetPlaybackContext(string authorizationToken)
         {
             var client = new RestClient(spotifyBaseApi + "me/");
             var request = new RestRequest("player", Method.GET);
@@ -236,7 +236,7 @@ namespace MusicTry3.Models
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             IRestResponse response = client.Execute(request);
 
-            return JsonConvert.DeserializeObject<SpotifyPlaybackContext>(response.Content);
+            return JsonConvert.DeserializeObject<PlaybackContext>(response.Content);
         }
 
 

@@ -132,7 +132,7 @@ namespace MusicTry3.Controllers
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             request.AddHeader("Content-type", "application/json");
-            request.AddBody(new SpotifyPlaylistRequestBody { name = name});
+            request.AddBody(new PlaylistRequestBody { name = name});
             IRestResponse response = client.Execute(request);
             SpotifyPlaylist playlistResponse = null;
             if(response.IsSuccessful)

@@ -66,7 +66,7 @@ namespace MusicTry3.Controllers
         [Route("devices")]
         public IHttpActionResult Devices(string sessionId, string playlistId)
         {
-            List<SpotifyDevice> restResponse = null;
+            List<Device> restResponse = null;
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if (session != null)
             {
@@ -75,7 +75,7 @@ namespace MusicTry3.Controllers
             return restResponse != null ? (IHttpActionResult)Ok(restResponse) : NotFound();
         }
 
-        private List<SpotifyDevice> GetDevices(string authorizationToken)
+        private List<Device> GetDevices(string authorizationToken)
         {
             var client = new RestClient(Constants.Spotify.WebApiBase + "me/player");
             var request = new RestRequest("devices", Method.GET);
@@ -83,7 +83,7 @@ namespace MusicTry3.Controllers
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             IRestResponse response = client.Execute(request);
 
-            SpotifyDeviceReturnObject result = JsonConvert.DeserializeObject<SpotifyDeviceReturnObject>(response.Content);
+            Devices result = JsonConvert.DeserializeObject<Devices>(response.Content);
             return result.devices;
         }
 

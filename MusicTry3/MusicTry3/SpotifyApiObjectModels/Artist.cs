@@ -1,6 +1,6 @@
 ﻿namespace MusicTry3.Models
 {
-    public class SpotifyArtist
+    public class Artist
     {
         public string name { get; set; }
     }

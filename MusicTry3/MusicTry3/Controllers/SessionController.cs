@@ -47,7 +47,7 @@ namespace MusicTry3.Controllers
             IRestResponse response = client.Execute(request);
             if(response.IsSuccessful)
             {
-                SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
+                TokenResponse responseBody = JsonConvert.DeserializeObject<TokenResponse>(response.Content);
                 if (responseBody.scope != null && responseBody.access_token != null)
                 {
                     Credentials credentials = new Credentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));

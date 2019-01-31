@@ -5,8 +5,8 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class SpotifyPlaylistRequestBody
+    public class Devices
     {
-        public string name { get; set; }
+        public List<Device> devices { get; set; }
     }
 }
