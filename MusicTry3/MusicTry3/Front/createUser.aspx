@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/Front/general.css">
 <style type = "text/css">
   body {
-  background: url("/Front/SmallCassette.jpg");
+  background: url("/Resources/SmallCassette.jpg");
   }
   /*
 .form-control::-webkit-input-placeholder {

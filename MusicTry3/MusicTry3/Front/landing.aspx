@@ -7,11 +7,11 @@
 <style type = "text/css">
 
 body {
-  background: url("/Front/SmallCassette.jpg");
+  background: url("/Resources/SmallCassette.jpg");
   }
     @font-face {
         font-family: titleFamily;
-        src: url("/Front/Gtoles.ttf");
+        src: url("/Resources/Gtoles.ttf");
     }
 </style>
 <!-- jQuery library -->

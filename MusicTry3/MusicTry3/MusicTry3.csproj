@@ -113,19 +113,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Front\SpaceBackground.jpg" />
-    <Content Include="Front\BlackBackground.jpg" />
-    <Content Include="Front\TealBackground.jpg" />
-    <Content Include="Front\BlueBackground.jpg" />
-    <Content Include="Front\OrangeBackground.jpg" />
-    <Content Include="Front\audio-black-and-white-black-and-white-6966.jpg" />
-    <Content Include="Front\audio-cassette-cassette-tape-1626481.jpg" />
-    <Content Include="Front\BrickWall.jpg" />
-    <Content Include="Front\Cassette.jpg" />
+    <Content Include="Resources\Cassette.jpg" />
     <Content Include="Front\createUser.aspx" />
     <Content Include="Front\createUser.js" />
     <Content Include="Front\general.css" />
-    <Content Include="Front\GreenLeaf.jpg" />
     <Content Include="Front\keep-alive.js" />
     <Content Include="Front\landing.aspx" />
     <Content Include="Front\landing.js" />
@@ -133,7 +124,7 @@
     <Content Include="Front\playlist.js" />
     <Content Include="Front\session.aspx" />
     <Content Include="Front\session.js" />
-    <Content Include="Front\SmallCassette.jpg" />
+    <Content Include="Resources\SmallCassette.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -177,14 +168,13 @@
     <Compile Include="Models\SpotifyUser.cs" />
     <Compile Include="Models\StartResumeRequestBody.cs" />
     <Compile Include="Models\UnityResolver.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Models\SpotifyCredentials.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CommonUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Front\Gtoles.ttf" />
+    <Content Include="Resources\Gtoles.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\MusicTry320190127041227 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
@@ -196,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

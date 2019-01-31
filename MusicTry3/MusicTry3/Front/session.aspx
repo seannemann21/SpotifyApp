@@ -7,7 +7,7 @@
 <style type = "text/css">
   
   body {
-  background: url("/Front/SmallCassette.jpg");
+  background: url("/Resources/SmallCassette.jpg");
   }
 
   .table {
