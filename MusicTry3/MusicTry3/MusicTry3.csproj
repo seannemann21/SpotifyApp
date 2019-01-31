@@ -146,7 +146,7 @@
     <Compile Include="Models\SpotifyDeviceReturnObject.cs" />
     <Compile Include="Models\SpotifyOffset.cs" />
     <Compile Include="Models\SpotifyPlaylistTrackResponse.cs" />
-    <Compile Include="Models\SpotifyTokenRefresher.cs" />
+    <Compile Include="Models\TokenRefresher.cs" />
     <Compile Include="Models\SpotifyTokenRefreshResponse.cs" />
     <Compile Include="Models\SpotifyTrackWrapper.cs" />
     <Compile Include="Models\SpotifyPlaybackContext.cs" />
@@ -168,7 +168,7 @@
     <Compile Include="Models\SpotifyUser.cs" />
     <Compile Include="Models\StartResumeRequestBody.cs" />
     <Compile Include="Models\UnityResolver.cs" />
-    <Compile Include="Models\SpotifyCredentials.cs" />
+    <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="SpotifyApiObjectModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

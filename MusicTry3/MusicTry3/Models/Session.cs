@@ -15,15 +15,15 @@ namespace MusicTry3.Models
         public static readonly int maxId = 17575;
 
         public String id { get; set; }
-        public SpotifyCredentials spotifyCredentials { get; set; }
+        public Credentials spotifyCredentials { get; set; }
         public List<IPlaylist> playlists { get; set; }
         public List<User> users { get; set; }
         public SpotifyUser spotifyUser { get; set; }
         public DateTime lastContactWithMaster { get; set; }
         public String keepAliveToken { get; set; }
-        public SpotifyTokenRefresher tokenRefresher {get; set;}
+        public TokenRefresher tokenRefresher {get; set;}
 
-        public Session(SpotifyCredentials credentials, SpotifyUser spotifyUser)
+        public Session(Credentials credentials, SpotifyUser spotifyUser)
         {
             this.spotifyCredentials = credentials;
             this.id = GenerateId(existingSessionIds, random);
@@ -32,7 +32,7 @@ namespace MusicTry3.Models
             this.spotifyUser = spotifyUser;
             this.lastContactWithMaster = DateTime.UtcNow;
             this.keepAliveToken = Guid.NewGuid().ToString();
-            this.tokenRefresher = new SpotifyTokenRefresher(credentials);
+            this.tokenRefresher = new TokenRefresher(credentials);
             this.tokenRefresher.Start();
         }
 

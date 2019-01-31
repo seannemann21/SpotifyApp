@@ -9,13 +9,13 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class SpotifyTokenRefresher
+    public class TokenRefresher
     {
         Thread tokenRefresher;
         bool running;
-        SpotifyCredentials credentials;
+        Credentials credentials;
 
-        public SpotifyTokenRefresher(SpotifyCredentials credentials)
+        public TokenRefresher(Credentials credentials)
         {
             this.credentials = credentials;
             SetRefresherThread();

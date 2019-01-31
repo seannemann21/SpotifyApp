@@ -50,7 +50,7 @@ namespace MusicTry3.Controllers
                 SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
                 if (responseBody.scope != null && responseBody.access_token != null)
                 {
-                    SpotifyCredentials credentials = new SpotifyCredentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
+                    Credentials credentials = new Credentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
                     SpotifyUser spotifyUser = GetCurrentSpotifyUser(responseBody.access_token);
                     session = new Session(credentials, spotifyUser);
                     sessions.Add(session);

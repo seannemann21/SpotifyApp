@@ -24,10 +24,10 @@ namespace MusicTry3.Models
         public bool playingThroughConnectAPI { get; set; }
         public int nextSongOffset { get; set; }
         public string deviceId { get; set; }
-        public SpotifyCredentials credentials { get; set; }
+        public Credentials credentials { get; set; }
         public bool isPaused { get; set; }
 
-        public Playlist(SpotifyCredentials credentials, SpotifyPlaylist spotifyPlaylist)
+        public Playlist(Credentials credentials, SpotifyPlaylist spotifyPlaylist)
         {
             onBoardingSongs = new List<OnBoardingSong> ();
             this.credentials = credentials;

@@ -12,7 +12,7 @@ namespace MusicTry3.Models
         public List<Session> GetSessions()
         {
             
-            Session session = new Session(new SpotifyCredentials("accessToken", "refreshToken", new List<string>()), new SpotifyUser());
+            Session session = new Session(new Credentials("accessToken", "refreshToken", new List<string>()), new SpotifyUser());
             session.id = "AAA";
             IPlaylist playlist = new MockPlaylist();
             playlist.spotifyPlaylist = new SpotifyPlaylist();
