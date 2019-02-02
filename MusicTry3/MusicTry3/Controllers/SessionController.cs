@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Controllers
 {
@@ -39,15 +40,15 @@ namespace MusicTry3.Controllers
         public IHttpActionResult Create(string code)
         {
             Session session = null;
-            var client = new RestClient(Spotify.AccountsBaseApi);
+            var client = new RestClient(Constants.Spotify.AccountsBaseApi);
             var request = new RestRequest("token", Method.POST);
             request.AddHeader("content-type", "application/x-www-form-urlencoded");
-            request.AddParameter("application/x-www-form-urlencoded", $"client_id={Spotify.ClientId}&client_secret={Spotify.ClientSecret}&grant_type={grantType}&code={code}&redirect_uri={Spotify.RedirectUri}", ParameterType.RequestBody);
+            request.AddParameter("application/x-www-form-urlencoded", $"client_id={Constants.Spotify.ClientId}&client_secret={Constants.Spotify.ClientSecret}&grant_type={grantType}&code={code}&redirect_uri={Constants.Spotify.RedirectUri}", ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
             if(response.IsSuccessful)
             {
-                TokenResponse responseBody = JsonConvert.DeserializeObject<TokenResponse>(response.Content);
+                SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
                 if (responseBody.scope != null && responseBody.access_token != null)
                 {
                     Credentials credentials = new Credentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
@@ -78,7 +79,7 @@ namespace MusicTry3.Controllers
 
         private SpotifyUser GetCurrentSpotifyUser(string authorizationToken)
         {
-            var client = new RestClient(Spotify.WebApiBase);
+            var client = new RestClient(Constants.Spotify.WebApiBase);
             var request = new RestRequest("me");
             request.AddHeader("Authorization", "Bearer " + authorizationToken);
             IRestResponse response = client.Execute(request);

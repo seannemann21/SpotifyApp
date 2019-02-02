@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MusicTry3.Models
+namespace Spotify.ApiObjectModels
 {
-    public class TokenResponse
+    public class SpotifyTokenResponse
     {
 
         public string access_token { get; set; }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Controllers
 {
@@ -127,7 +128,7 @@ namespace MusicTry3.Controllers
 
         private SpotifyPlaylist CreateSpotifyPlaylist(string authorizationToken, string userId, string name)
         {
-            var client = new RestClient(Spotify.WebApiBase + "users/" + userId + "/");
+            var client = new RestClient(Constants.Spotify.WebApiBase + "users/" + userId + "/");
             var request = new RestRequest("playlists", Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddHeader("Authorization", "Bearer " + authorizationToken);

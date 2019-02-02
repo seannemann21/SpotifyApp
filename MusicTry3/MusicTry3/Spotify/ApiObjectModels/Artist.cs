@@ -1,4 +1,4 @@
-﻿namespace MusicTry3.Models
+﻿namespace Spotify.ApiObjectModels
 {
     public class Artist
     {

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Controllers
 {
@@ -36,7 +37,7 @@ namespace MusicTry3.Controllers
 
         private List<Track> SearchSpotify(string query, string accessToken)
         {
-            var client = new RestClient(Spotify.WebApiBase);
+            var client = new RestClient(Constants.Spotify.WebApiBase);
             var request = new RestRequest("search", Method.GET);
             request.AddHeader("Authorization", "Bearer " + accessToken);
             request.AddParameter("q", query);
