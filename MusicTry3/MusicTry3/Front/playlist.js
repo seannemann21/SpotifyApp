@@ -153,18 +153,14 @@ function UpdatePlaylistData(sessionId, playlistId, name) {
         success: function (playlist) {
             if (lastPlaylist == null || JSON.stringify(lastPlaylist) !== JSON.stringify(playlist)) {
                 ClearPlaylistData();
-                var spotifyPlaylist = playlist.spotifyPlaylist;
-                $('#playlistNameTitle').text(spotifyPlaylist.name);
-                if (spotifyPlaylist.tracks != null) {
-                    if (spotifyPlaylist.tracks.items != null) {
-                        var realTracks = spotifyPlaylist.tracks.items;
-                        for (var i in realTracks) {
-                            AddRowToQueueTable(realTracks[i].track);
-                        }
-                        for (var i in playlist.onBoardingSongs) {
-                            AddRowToOnboardingTable(sessionId, playlistId, playlist.onBoardingSongs[i], name);
-                        }
-                    }
+                $('#playlistNameTitle').text(playlist.name);
+                var actualPlaylist = playlist.playlist;
+                var onBoardingSongs = playlist.onBoardingSongs;
+                for (var i in actualPlaylist) {
+                    AddRowToQueueTable(actualPlaylist[i]);
+                }
+                for (var i in onBoardingSongs) {
+                    AddRowToOnboardingTable(sessionId, playlistId, onBoardingSongs[i], name);
                 }
 
                 lastPlaylist = playlist;
@@ -216,13 +212,13 @@ function ClearSessionData() {
 
 
 function AddRowToQueueTable(track) {
-    var row = "<tr><td>" + track.name + "</td><td>" + track.artists[0].name + "</td></tr>";
+    var row = "<tr><td>" + track.name + "</td><td>" + track.artist + "</td></tr>";
     $("#playlistQueueTableBody").append(row);
 }
 
 function AddRowToOnboardingTable(sessionId, playlistId, onboardingSong, name) {
     var row = $('<tr />');
-    row.append('<td>' + onboardingSong.name + '</td><td>' + onboardingSong.artist + '</td>');
+    row.append('<td>' + onboardingSong.song.name + '</td><td>' + onboardingSong.song.artist + '</td>');
     //var row = "<tr><td>" + onboardingSong.name + "</td><td>" + onboardingSong.artist + "</td><td>" + findVote(name, onboardingSong.votes) + "</td></tr> ";
     var starColumn = $('<td />');
     var stars = createStars(sessionId, playlistId, name, onboardingSong, findVote(name, onboardingSong.votes));
@@ -249,7 +245,7 @@ function createStars(sessionId, playlistId, name, onboardingSong, rating) {
                     stars[i].addClass('checked');
                     if ($(this).hasClass(i)) {
                         $.ajax({
-                            url: '/api/session/' + sessionId + '/playlist?sessionId=' + sessionId + '&playlistId=' + playlistId + '&trackUri=' + onboardingSong.trackUri + '&rating=' + i + '&username=' + name,
+                            url: '/api/session/' + sessionId + '/playlist?sessionId=' + sessionId + '&playlistId=' + playlistId + '&trackUri=' + onboardingSong.song.trackUri + '&rating=' + i + '&username=' + name,
                             type: 'put',
                             success: function () {
                             }

@@ -6,6 +6,7 @@ using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Models
 {
+    /*
     public class MockPlaylist : IPlaylist
     {
         
@@ -32,4 +33,5 @@ namespace MusicTry3.Models
         {
         }
     }
+    */
 }

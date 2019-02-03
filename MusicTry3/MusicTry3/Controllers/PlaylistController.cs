@@ -28,7 +28,7 @@ namespace MusicTry3.Controllers
         public IHttpActionResult Get(string sessionId)
         {
             Session session = sessions.Find(x => x.id.Equals(sessionId, StringComparison.InvariantCultureIgnoreCase));
-            return session != null ? (IHttpActionResult) Ok(session.playlists) : NotFound();
+            return session != null ? (IHttpActionResult) Ok(session.player.GetAllPlaylists()) : NotFound();
         }
 
         [HttpGet]
@@ -38,32 +38,26 @@ namespace MusicTry3.Controllers
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if (session != null)
             {
-                playlist = session.playlists.Find(x => x.spotifyPlaylist.id == id);
-                if(playlist != null)
-                {
-                    playlist.UpdateSpotifyPlaylist();
-                }
+                playlist = session.player.GetPlaylistById(id);
             }
 
-            return session != null ? (IHttpActionResult) Ok(playlist) : NotFound();
+            return playlist != null ? (IHttpActionResult) Ok(playlist) : NotFound();
         }
 
         [HttpPost]
         public IHttpActionResult Post(string sessionId, [FromBody] string name)
         {
             IPlaylist playlist = null;
+            IPlayer player = null;
             Session currentSession = CommonUtil.GetSession(sessions, sessionId);
             if(currentSession != null)
             {
-                SpotifyPlaylist spotifyPlaylist = CreateSpotifyPlaylist(currentSession.spotifyCredentials.accessToken, currentSession.spotifyUser.id, name);
-                if(spotifyPlaylist != null)
-                {
-                    playlist = new Playlist(currentSession.spotifyCredentials, spotifyPlaylist);
-                    currentSession.playlists.Add(playlist);
-                }
+                //SpotifyPlaylist spotifyPlaylist = CreateSpotifyPlaylist(currentSession.spotifyCredentials.accessToken, currentSession.spotifyUser.id, name);
+                player = currentSession.player;
+                playlist = player.CreateNewPlaylist(name);
             }
             
-            return playlist != null ? (IHttpActionResult) Ok(playlist.spotifyPlaylist) : NotFound();
+            return playlist != null ? (IHttpActionResult) Ok(playlist) : NotFound();
         }
 
         [HttpPut]
@@ -71,23 +65,13 @@ namespace MusicTry3.Controllers
         {
             // add track to onboarding track list
             bool trackAdded = false;
-            IPlaylist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
             Session currentSession = CommonUtil.GetSession(sessions, sessionId);
             if(currentSession != null)
             {
-                if(currentSession.users != null)
+                User currentUser = currentSession.GetUser(submitter);
+                if(currentUser != null)
                 {
-                    User currentUser = currentSession.users.Find(x => x.name == submitter);
-                    if(currentUser != null)
-                    {
-                        if (currentPlaylist != null)
-                        {
-                            bool priority = currentUser.readyForFreePick;
-                            currentPlaylist.onBoardingSongs.Add(new OnBoardingSong(artist, name, trackUri, priority, currentUser));
-                            currentUser.readyForFreePick = false;
-                            trackAdded = true;
-                        }
-                    }
+                    trackAdded = currentSession.AddTrackToOnboardingList(currentUser, playlistId, trackUri, name, artist);
                 }
             }
             
@@ -99,52 +83,17 @@ namespace MusicTry3.Controllers
         {
             // update track vote in onboarding track list
             bool trackUpdated = false;
-            IPlaylist currentPlaylist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
             Session currentSession = CommonUtil.GetSession(sessions, sessionId);
-            if (currentPlaylist != null)
+            if (currentSession != null)
             {
-                OnBoardingSong track = currentPlaylist.onBoardingSongs.Find(x => x.trackUri == trackUri);
-                if(track != null)
-                {
-                    // username is unique id
-                    Vote vote = track.votes.Find(x => x.user.name == username);
-                    if (vote == null)
-                    {
-                        vote = new Vote();
-                        User currentUser = currentSession.users.Find(x => x.name == username);
-                        if (currentUser != null)
-                        {
-                            vote.user = currentUser;
-                        }
-                        track.votes.Add(vote);
-                    }
-                    vote.score = rating;
-                    trackUpdated = true;
-                }
+                User user = currentSession.GetUser(username);
+                trackUpdated = currentSession.UpdateTrackVote(user, playlistId, trackUri, rating);
+
             }
 
             return trackUpdated ? (IHttpActionResult) Ok() : NotFound();
         }
 
-        private SpotifyPlaylist CreateSpotifyPlaylist(string authorizationToken, string userId, string name)
-        {
-            var client = new RestClient(Constants.Spotify.WebApiBase + "users/" + userId + "/");
-            var request = new RestRequest("playlists", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + authorizationToken);
-            request.AddHeader("Content-type", "application/json");
-            request.AddBody(new PlaylistRequestBody { name = name});
-            IRestResponse response = client.Execute(request);
-            SpotifyPlaylist playlistResponse = null;
-            if(response.IsSuccessful)
-            {
-                playlistResponse = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings
-                {
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                });
-            }
-            return playlistResponse;
-        }
 
     }
 }

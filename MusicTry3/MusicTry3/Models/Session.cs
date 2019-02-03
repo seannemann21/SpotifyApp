@@ -14,27 +14,19 @@ namespace MusicTry3.Models
 
         private static readonly int charsInId = 3;
         public static readonly int maxId = 17575;
-
+        public IPlayer player { get; set; }
         public String id { get; set; }
-        public Credentials spotifyCredentials { get; set; }
-        public List<IPlaylist> playlists { get; set; }
         public List<User> users { get; set; }
-        public SpotifyUser spotifyUser { get; set; }
         public DateTime lastContactWithMaster { get; set; }
         public String keepAliveToken { get; set; }
-        public TokenRefresher tokenRefresher {get; set;}
 
-        public Session(Credentials credentials, SpotifyUser spotifyUser)
+        public Session(IPlayer player)
         {
-            this.spotifyCredentials = credentials;
             this.id = GenerateId(existingSessionIds, random);
-            this.playlists = new List<IPlaylist>();
+            this.player = player;
             this.users = new List<User>();
-            this.spotifyUser = spotifyUser;
             this.lastContactWithMaster = DateTime.UtcNow;
             this.keepAliveToken = Guid.NewGuid().ToString();
-            this.tokenRefresher = new TokenRefresher(credentials);
-            this.tokenRefresher.Start();
         }
 
         public static string GenerateId(HashSet<int> existingIds, Random rand)
@@ -60,6 +52,35 @@ namespace MusicTry3.Models
             return id;
         }
 
+        public bool UpdateKeepAlive(string keepAlive)
+        {
+            bool keepAliveUpdated = false;
+            if (keepAliveToken == keepAlive)
+            {
+                lastContactWithMaster = DateTime.UtcNow;
+                keepAliveUpdated = true;
+            }
+
+            return keepAliveUpdated;
+        }
+
+        public bool AddUser(string username)
+        {
+            bool userCreated = false;
+            if (!this.users.Exists(x => x.name == username))
+            {
+                this.users.Add(new User(username));
+                userCreated = true;
+            }
+
+            return userCreated;
+        }
+
+        public User GetUser(string username)
+        {
+            return users.Find(x => x.name == username);
+        }
+
         private static int Power(int a, int b)
         {
             int result = 1;
@@ -69,6 +90,27 @@ namespace MusicTry3.Models
             }
 
             return result;
+        }
+
+        public bool AddTrackToOnboardingList(User submitter, string playlistId, string trackUri, string name, string artist)
+        {
+            bool trackAdded = false;
+            if(submitter != null)
+            {
+                bool priority = submitter.readyForFreePick;
+                trackAdded = player.AddToOnboardingSongs(playlistId, new OnBoardingSong(artist, name, trackUri, priority, submitter));
+                submitter.readyForFreePick = false;
+            }
+
+            return trackAdded;
+        }
+
+
+
+        public bool UpdateTrackVote(User user, string playlistId, string trackUri, int rating)
+        {
+
+            return player.UpdateTrackVote(user, playlistId, trackUri, rating);
         }
     }
 }

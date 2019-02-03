@@ -27,10 +27,10 @@ namespace MusicTry3.Controllers
         [Route("play")]
         public IHttpActionResult Play(string sessionId, string playlistId, string deviceId)
         {
-            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
-            if(playlist != null)
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if(session != null)
             {
-                playlist.Play(deviceId);
+                session.player.Play(deviceId);
             }
 
             return Ok();
@@ -40,10 +40,10 @@ namespace MusicTry3.Controllers
         [Route("pause")]
         public IHttpActionResult Pause(string sessionId, string playlistId)
         {
-            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
-            if (playlist != null)
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if (session != null)
             {
-                playlist.Pause();
+                session.player.Pause();
             }
 
             return Ok();
@@ -53,16 +53,30 @@ namespace MusicTry3.Controllers
         [Route("next")]
         public IHttpActionResult Next(string sessionId, string playlistId)
         {
-            IPlaylist playlist = CommonUtil.GetPlaylist(sessions, sessionId, playlistId);
-            if (playlist != null)
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if (session != null)
             {
-                playlist.Next();
+                session.player.Next();
             }
 
             return Ok();
         }
 
+        [HttpPut]
+        [Route("load")]
+        public IHttpActionResult Play(string sessionId, string playlistId)
+        {
+            bool playlistLoaded = false;
+            Session session = CommonUtil.GetSession(sessions, sessionId);
+            if (session != null)
+            {
+                playlistLoaded = session.player.LoadPlaylist(playlistId);
+            }
 
+            return playlistLoaded ? (IHttpActionResult)Ok() : NotFound();
+        }
+
+        /*
         [HttpGet]
         [Route("devices")]
         public IHttpActionResult Devices(string sessionId, string playlistId)
@@ -87,6 +101,7 @@ namespace MusicTry3.Controllers
             Devices result = JsonConvert.DeserializeObject<Devices>(response.Content);
             return result.devices;
         }
+        */
 
     }
 }

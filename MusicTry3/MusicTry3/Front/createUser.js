@@ -14,7 +14,7 @@
                     window.sessionStorage.setItem("sessionId", session.id);
                     window.sessionStorage.setItem("userstatus", "master");
                     window.sessionStorage.setItem("keep-alive", session.keepAliveToken);
-                    window.sessionStorage.setItem("authenticationToken", session.spotifyCredentials.accessToken);
+                    window.sessionStorage.setItem("authenticationToken", session.player.credentials.accessToken);
                     sessionId = session.id;
                 }
             }

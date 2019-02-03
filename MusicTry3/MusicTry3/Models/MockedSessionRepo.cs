@@ -6,6 +6,7 @@ using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Models
 {
+    /*
     public class MockedSessionRepo : ISessionRepo
     {
         static List<Session> mockedSessions = new List<Session>();
@@ -105,4 +106,5 @@ namespace MusicTry3.Models
         }
 
     }
+    */
 }

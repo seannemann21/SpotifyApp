@@ -19,7 +19,7 @@ namespace MusicTry3.Util
             Session session = sessions.Find(x => x.id.Equals(sessionId, StringComparison.InvariantCultureIgnoreCase));
             if(session != null)
             {
-                playlist = session.playlists.Find(x => x.spotifyPlaylist.id == playlistId);
+                playlist = session.player.GetPlaylistById(playlistId);
             }
 
             return playlist;

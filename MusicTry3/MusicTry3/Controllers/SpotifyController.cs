@@ -30,7 +30,7 @@ namespace MusicTry3.Controllers
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if(session != null)
             {
-                restResponse = SearchSpotify(query, session.spotifyCredentials.accessToken);
+                restResponse = SearchSpotify(query, ((SpotifyPlayer) session.player).credentials.accessToken);
             }
             return restResponse != null ? (IHttpActionResult) Ok(restResponse) : NotFound();
         }

@@ -131,7 +131,6 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Constants\Spotify.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\PlaybackController.cs" />
     <Compile Include="Controllers\PlaylistController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
@@ -139,14 +138,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IPlayer.cs" />
     <Compile Include="Models\IPlaylist.cs" />
     <Compile Include="Models\MockPlaylist.cs" />
+    <Compile Include="Models\Playlist.cs" />
     <Compile Include="Spotify\ApiObjectModels\Context.cs" />
     <Compile Include="Spotify\ApiObjectModels\Device.cs" />
     <Compile Include="Spotify\ApiObjectModels\Devices.cs" />
     <Compile Include="Spotify\ApiObjectModels\Offset.cs" />
     <Compile Include="Spotify\ApiObjectModels\PlaylistTrackResponse.cs" />
-    <Compile Include="Models\TokenRefresher.cs" />
+    <Compile Include="Models\SpotifyTokenRefresher.cs" />
     <Compile Include="Spotify\ApiObjectModels\TokenRefreshResponse.cs" />
     <Compile Include="Spotify\ApiObjectModels\TrackWrapper.cs" />
     <Compile Include="Spotify\ApiObjectModels\PlaybackContext.cs" />
@@ -156,7 +157,7 @@
     <Compile Include="Models\ISessionRepo.cs" />
     <Compile Include="Models\MockedSessionRepo.cs" />
     <Compile Include="Models\OnBoardingSong.cs" />
-    <Compile Include="Models\Playlist.cs" />
+    <Compile Include="Models\SpotifyPlayer.cs" />
     <Compile Include="Models\PlaylistName.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\SessionRepo.cs" />
@@ -168,7 +169,7 @@
     <Compile Include="Spotify\ApiObjectModels\SpotifyUser.cs" />
     <Compile Include="Models\StartResumeRequestBody.cs" />
     <Compile Include="Models\UnityResolver.cs" />
-    <Compile Include="Models\Credentials.cs" />
+    <Compile Include="Models\SpotifyCredentials.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

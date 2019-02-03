@@ -9,15 +9,14 @@ namespace MusicTry3.Models
 {
     public interface IPlaylist
     {
-        SpotifyPlaylist spotifyPlaylist { get; set; }
         List<OnBoardingSong> onBoardingSongs { get; set; }
-        bool running { get; set; }
-        bool playingThroughConnectAPI { get; set; }
-        string deviceId { get; set; }
-        bool isPaused { get; set; }
-        void Next();
-        void Pause();
-        void Play(String deviceId);
-        void UpdateSpotifyPlaylist();
+        string name { get; set; }
+        string id { get; set; }
+        int GetNumberOfTracks();
+        bool HasNextSong();
+        string GetNextTrackUri();
+        void NextSongPlayed();
+        bool AddToOnboardingSongs(OnBoardingSong onBoardingSong);
+        bool UpdateTrackVote(User user, string trackUri, int rating);
     }
 }

@@ -1,74 +1,33 @@
-﻿using log4net;
-using Newtonsoft.Json;
-using RestSharp;
+﻿using Spotify.ApiObjectModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
-using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Models
 {
     public class Playlist : IPlaylist
     {
-
-        private static readonly ILog logger = LogManager.GetLogger("Playlist");
-        string spotifyBaseApi = "https://api.spotify.com/v1/";
-
-        public SpotifyPlaylist spotifyPlaylist { get; set; }
-        // make priority queue
+        //string spotifyBaseApi = "https://api.spotify.com/v1/";
+        //public SpotifyPlaylist spotifyPlaylist { get; set; }
         public List<OnBoardingSong> onBoardingSongs { get; set; }
-        public static Thread onBoardingSelector { get; set; }
-        public bool running { get; set; }
-        public static Thread connectPlayback { get; set; }
-        public bool playingThroughConnectAPI { get; set; }
+        public List<Song> playlist { get; set; }
+        public Thread onBoardingSelector { get; set; }
+        public bool active { get; set; }
         public int nextSongOffset { get; set; }
-        public string deviceId { get; set; }
-        public Credentials credentials { get; set; }
-        public bool isPaused { get; set; }
-
-        public Playlist(Credentials credentials, SpotifyPlaylist spotifyPlaylist)
+        public string id { get; set; }
+        public string name { get; set; }
+        public Playlist(string name)
         {
-            onBoardingSongs = new List<OnBoardingSong> ();
-            this.credentials = credentials;
-            this.spotifyPlaylist = spotifyPlaylist;
-            this.playingThroughConnectAPI = false;
-            this.isPaused = false;
-            this.nextSongOffset = 0;
-            connectPlayback = new Thread(() =>
-            {
-                while (running)
-                {
-                    if(playingThroughConnectAPI)
-                    {
-                        PlaybackContext playbackContext;
-                        if (credentials != null)
-                        {
-                            playbackContext = GetPlaybackContext(credentials.accessToken);
-                            if(playbackContext != null && this.isPaused)
-                            {
-                                logger.Info("Resuming playback since user unpaused");
-                                this.isPaused = false;
-                                ResumePlayback();
-                            } else if (playbackContext == null || !playbackContext.is_playing)
-                            {
-                                logger.Info("Starting playback or last song finished and playing next");
-                                // check to make sure there are enough songs
-                                if(this.nextSongOffset < this.spotifyPlaylist.tracks.items.Count)
-                                {
-                                    PlayNextSong();
-                                }
-                            }
-                        }
-                    }
-                    Thread.Sleep(2000);
-                }
-            });
-            connectPlayback.Start();
-            this.running = true;
+            this.name = name;
+            nextSongOffset = 0;
+            onBoardingSongs = new List<OnBoardingSong>();
+            playlist = new List<Song>();
+            id = Guid.NewGuid().ToString();
+            /*
             onBoardingSelector = new Thread(() => {
-                while(running)
+                while (alive)
                 {
                     PlaybackContext playbackContext;
                     if (credentials != null)
@@ -79,7 +38,7 @@ namespace MusicTry3.Models
                         if (this.spotifyPlaylist != null && !AtLeastThisManySongsInPlaylistQueue(1, playbackContext, this.spotifyPlaylist))
                         {
                             OnBoardingSong nextSong = SelectNextSong(onBoardingSongs);
-                            if(nextSong != null)
+                            if (nextSong != null)
                             {
                                 AddTrackToPlaylist(spotifyPlaylist.id, credentials.accessToken, nextSong.trackUri);
                             }
@@ -88,113 +47,30 @@ namespace MusicTry3.Models
                     Thread.Sleep(3000);
                 }
             });
-            onBoardingSelector.Start();
-        }
-
-        public void Next()
-        {
-            PausePlayback();
-        }
-
-        public void Pause()
-        {
-            this.playingThroughConnectAPI = false;
-            this.isPaused = true;
-            PausePlayback();
-        }
-
-        public void Play(string deviceId)
-        {
-            this.playingThroughConnectAPI = true;
-            this.deviceId = deviceId;
-
-        }
-
-        private bool PausePlayback()
-        {
-            var successful = false;
-            var client = new RestClient(spotifyBaseApi + "me/");
-            var request = new RestRequest("player/pause", Method.PUT);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
-
-            IRestResponse response = client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                successful = true;
-            }
-
-            return successful;
-        }
-
-        private bool ResumePlayback()
-        {
-            var successful = false;
-            var client = new RestClient(spotifyBaseApi + "me/");
-            var request = new RestRequest("player/play", Method.PUT);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
-
-            IRestResponse response = client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                successful = true;
-            }
-
-            return successful;
-        }
-
-        private void PlayNextSong()
-        {
-            UpdateSpotifyPlaylist();
-            if(nextSongOffset < spotifyPlaylist.tracks.items.Count)
-            {
-                logger.Info("Attempting to play song " + nextSongOffset);
-                var uriToPlay = spotifyPlaylist.tracks.items[nextSongOffset].track.uri;
-                var client = new RestClient(spotifyBaseApi + "me/");
-                var request = new RestRequest("player/play?device_id=" + deviceId, Method.PUT);
-                //var request = new RestRequest("player/play?device_id=" + deviceId, Method.PUT);
-                request.RequestFormat = DataFormat.Json;
-                request.AddHeader("Authorization", "Bearer " + this.credentials.accessToken);
-                StartResumeRequestBody body = new StartResumeRequestBody();
-                body.uris = new List<string>();
-                body.uris.Add(uriToPlay);
-                request.AddBody(body);
-
-                IRestResponse response = client.Execute(request);
-                if (response.IsSuccessful)
-                {
-                    logger.Info("Playing next song request succeeded for: " + nextSongOffset);
-                    nextSongOffset++;
-                    logger.Info("Next song offset incremented to " + nextSongOffset);
-                }
-            }
-        }
-
-        private void Resume()
-        {
-
+            */
+            //alive = true;
+            //onBoardingSelector.Start();
         }
 
         // returns true if there are more unplayedSongs in queue than bufferSongs, false if equal to or less than buffer songs or the current song played isn't in playlist
-        private bool AtLeastThisManySongsInPlaylistQueue(int bufferSongs, PlaybackContext playbackContext, SpotifyPlaylist spotifyPlaylist)
+        private bool AtLeastThisManySongsInPlaylistQueue(int bufferSongs)
         {
-            return spotifyPlaylist.tracks.items.Count > (this.nextSongOffset + bufferSongs);
+            return playlist.Count > (nextSongOffset + bufferSongs);
         }
 
-        private OnBoardingSong SelectNextSong(List<OnBoardingSong> onBoardingSongs)
+        private OnBoardingSong SelectNextSong()
         {
             OnBoardingSong nextSong = onBoardingSongs.Find(x => x.priority == true);
-            if(nextSong == null)
+            if (nextSong == null)
             {
                 nextSong = GetHighestVotedSong(onBoardingSongs);
-                if(nextSong != null)
+                if (nextSong != null)
                 {
                     nextSong.submitter.SongSelected();
                 }
             }
 
-            if(nextSong != null)
+            if (nextSong != null)
             {
                 onBoardingSongs.Remove(nextSong);
             }
@@ -215,46 +91,74 @@ namespace MusicTry3.Models
             return highestVotedSong;
         }
 
-        private void AddTrackToPlaylist(string playlistId, string authorizationToken, string trackUri)
+        public int GetNumberOfTracks()
         {
-            var client = new RestClient(spotifyBaseApi + "playlists/" + playlistId + "/");
-            var request = new RestRequest("tracks", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + authorizationToken);
-            request.AddHeader("Content-type", "application/json");
-            TrackAdditionRequest trackAddition = new TrackAdditionRequest();
-            trackAddition.uris = new List<string>();
-            trackAddition.uris.Add(trackUri);
-            request.AddBody(trackAddition);
-            IRestResponse response = client.Execute(request);
+            return playlist.Count;
         }
 
-        private PlaybackContext GetPlaybackContext(string authorizationToken)
+        public bool HasNextSong()
         {
-            var client = new RestClient(spotifyBaseApi + "me/");
-            var request = new RestRequest("player", Method.GET);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + authorizationToken);
-            IRestResponse response = client.Execute(request);
-
-            return JsonConvert.DeserializeObject<PlaybackContext>(response.Content);
+            return nextSongOffset < GetNumberOfTracks();
         }
 
-
-        public void UpdateSpotifyPlaylist()
+        public void NextSongPlayed()
         {
-            var client = new RestClient(spotifyBaseApi + "playlists/");
-            var request = new RestRequest(spotifyPlaylist.id, Method.GET);
-            request.RequestFormat = DataFormat.Json;
-            request.AddHeader("Authorization", "Bearer " + credentials.accessToken);
-            IRestResponse response = client.Execute(request);
-            if(response.IsSuccessful)
+            nextSongOffset++;
+            AddTrackToPlaylist();
+        }
+
+        private void AddTrackToPlaylist()
+        {
+            if(!AtLeastThisManySongsInPlaylistQueue(1))
             {
-                spotifyPlaylist = JsonConvert.DeserializeObject<SpotifyPlaylist>(response.Content, new JsonSerializerSettings
+                var nextTrack = SelectNextSong();
+                if (nextTrack != null)
                 {
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                });
+                    if(!nextTrack.priority)
+                    {
+                        nextTrack.submitter.SongSelected();
+                    }
+                    playlist.Add(nextTrack.song);
+                }
             }
+        }
+
+        public string GetNextTrackUri()
+        {
+            return playlist[nextSongOffset].trackUri;
+        }
+
+        public bool AddToOnboardingSongs(OnBoardingSong onBoardingSong)
+        {
+            bool songAdded = false;
+            // probably should've used some sort of ordered set
+            if (null == onBoardingSongs.Find(x => (x.song.name == onBoardingSong.song.name && x.song.artist == onBoardingSong.song.artist))) {
+                onBoardingSongs.Add(onBoardingSong);
+                AddTrackToPlaylist();
+                songAdded = true;
+            }
+            return songAdded;
+        }
+
+        public bool UpdateTrackVote(User user, string trackUri, int rating)
+        {
+            bool trackUpdated = false;
+            OnBoardingSong track = onBoardingSongs.Find(x => x.song.trackUri == trackUri);
+            if (track != null && user != null)
+            {
+                // username is unique id
+                Vote vote = track.votes.Find(x => x.user.name == user.name);
+                if (vote == null)
+                {
+                    vote = new Vote();
+                    vote.user = user;
+                    track.votes.Add(vote);
+                    vote.score = rating;
+                    trackUpdated = true;
+                }
+            }
+
+            return trackUpdated;
         }
     }
 }

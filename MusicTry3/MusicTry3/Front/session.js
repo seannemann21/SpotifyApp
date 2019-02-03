@@ -56,9 +56,9 @@ function setupPage(sessionId, username, userstatus) {
     $.ajax({
         url: '/api/session/' + sessionId + "/playlist/",
         type: 'get',
-        success: function (data) {
-            for (var i in data) {
-                $('#playlistTableBody').append(createRowForPlaylistTable(data[i], sessionId, username));
+        success: function (playlists) {
+            for (var i in playlists) {
+                $('#playlistTableBody').append(createRowForPlaylistTable(playlists[i], sessionId, username));
             }
         },
         error: function () {
@@ -69,5 +69,15 @@ function setupPage(sessionId, username, userstatus) {
 }
 
 function createRowForPlaylistTable(playlist, sessionId, username) {
-    return '<tr><td><a href="/session/playlist?sessionId=' + sessionId + '&playlistId=' + playlist.spotifyPlaylist.id + '&username=' + username +'">' + playlist.spotifyPlaylist.name + '</a></td></tr>';
+    var row = $('<tr />');
+    row.append('<td><a>' + playlist.name + '</a></td>');
+    row.click(function () {
+        $.ajax({
+            url: '/api/session/' + sessionId + "/playlist/" + playlistId + "/load",
+            type: 'put',
+            success: function () {
+            }
+        })
+    });
+    return '<tr><td><a href="/session/playlist?sessionId=' + sessionId + '&playlistId=' + playlist.id + '&username=' + username +'">' + playlist.name + '</a></td></tr>';
 }

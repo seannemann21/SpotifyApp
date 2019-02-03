@@ -10,5 +10,13 @@ namespace MusicTry3.Models
         public string name { get; set; }
         public string artist { get; set; }
         public string trackUri { get; set; }
+
+        public Song(string name, string artist, string trackUri)
+        {
+            this.name = name;
+            this.artist = artist;
+            this.trackUri = trackUri;
+        }
+
     }
 }

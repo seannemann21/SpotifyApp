@@ -10,13 +10,13 @@ using Spotify.ApiObjectModels;
 
 namespace MusicTry3.Models
 {
-    public class TokenRefresher
+    public class SpotifyTokenRefresher
     {
         Thread tokenRefresher;
         bool running;
-        Credentials credentials;
+        SpotifyCredentials credentials;
 
-        public TokenRefresher(Credentials credentials)
+        public SpotifyTokenRefresher(SpotifyCredentials credentials)
         {
             this.credentials = credentials;
             SetRefresherThread();

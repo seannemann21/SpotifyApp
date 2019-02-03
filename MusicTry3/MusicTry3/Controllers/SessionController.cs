@@ -51,9 +51,9 @@ namespace MusicTry3.Controllers
                 SpotifyTokenResponse responseBody = JsonConvert.DeserializeObject<SpotifyTokenResponse>(response.Content);
                 if (responseBody.scope != null && responseBody.access_token != null)
                 {
-                    Credentials credentials = new Credentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
-                    SpotifyUser spotifyUser = GetCurrentSpotifyUser(responseBody.access_token);
-                    session = new Session(credentials, spotifyUser);
+                    SpotifyCredentials credentials = new SpotifyCredentials(responseBody.access_token, responseBody.refresh_token, new List<string>(responseBody.scope.Split(' ')));
+                    IPlayer player = new SpotifyPlayer(credentials);
+                    session = new Session(player);
                     sessions.Add(session);
                 }
             }
@@ -68,15 +68,11 @@ namespace MusicTry3.Controllers
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if(session != null)
             {
-                if(session.keepAliveToken == keepAlive)
-                {
-                    session.lastContactWithMaster = DateTime.UtcNow;
-                    keepAliveUpdated = true;
-                }
+                keepAliveUpdated = session.UpdateKeepAlive(keepAlive);
             }
             return keepAliveUpdated ? (IHttpActionResult) Ok() : NotFound();
         }
-
+        /*
         private SpotifyUser GetCurrentSpotifyUser(string authorizationToken)
         {
             var client = new RestClient(Constants.Spotify.WebApiBase);
@@ -91,6 +87,7 @@ namespace MusicTry3.Controllers
             }
             return currentUser;
         }
+        */
 
         [HttpPut]
         public IHttpActionResult Createuser(string username, string sessionId)
@@ -99,11 +96,7 @@ namespace MusicTry3.Controllers
             Session session = CommonUtil.GetSession(sessions, sessionId);
             if (session != null)
             {
-                if(!session.users.Exists(x => x.name == username))
-                {
-                    session.users.Add(new User(username));
-                    userCreated = true;
-                }
+                userCreated = session.AddUser(username);
             }
 
             IHttpActionResult result;

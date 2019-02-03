@@ -5,15 +5,15 @@ using System.Web;
 
 namespace MusicTry3.Models
 {
-    public class Credentials
+    public class SpotifyCredentials
     {
         public string accessToken { get; set; }
         public string refreshToken { get; set; }
         public List<string> scope { get; set; }
 
-        public Credentials() { }
+        public SpotifyCredentials() { }
 
-        public Credentials(string accessToken, string refreshToken, List<string> scope)
+        public SpotifyCredentials(string accessToken, string refreshToken, List<string> scope)
         {
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
